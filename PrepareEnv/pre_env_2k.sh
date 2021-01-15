@@ -59,7 +59,7 @@ nohup ./lotus-miner run --nosync &> miner.log &
 
 # 5.start worker
 # prepare 3 files: api, token, lotus-worker
-workers=$(grep "worker" pre_env_2k.conf |cut -d' ' -f2 |cut -d'=' -f2)
+workers=$(grep -v '^ *#' pre_env_2k.conf |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $2}' |cut -d'=' -f2)
 for ip in ${workers}
 do
   ssh ${ip} "mkdir -p ${LOTUS_MINER_PATH}"

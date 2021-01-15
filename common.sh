@@ -1,10 +1,10 @@
 #!/bin/bash
 function log_info() {
-  echo $(date)" [INFO] - $1"
+  echo $(date '+%Y-%m-%d %H:%M:%S')" [INFO] - $1"
 }
 
 function log_err() {
-  echo $(date)" [ERROR] - $1"
+  echo $(date '+%Y-%m-%d %H:%M:%S')" [ERROR] - $1"
 }
 
 

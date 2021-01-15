@@ -3,13 +3,14 @@ source common.sh
 
 LOCAL_IP=$(ifconfig |grep inet |grep -v 127 |awk '{printf $2}')
 conf=pre_env_2k.conf
-port=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f3 |cut -d'=' -f2)
-addpiece=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f4 |cut -d'=' -f2)
-precommit1=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f5 |cut -d'=' -f2)
-precommit2=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f6 |cut -d'=' -f2)
-commit1=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f7 |cut -d'=' -f2)
-commit2=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f8 |cut -d'=' -f2)
-unseal=$(grep "worker" ${conf} |grep ${LOCAL_IP} |cut -d' ' -f9 |cut -d'=' -f2)
+
+port=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $3}' |cut -d'=' -f2)
+addpiece=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $4}' |cut -d'=' -f2)
+precommit1=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $5}' |cut -d'=' -f2)
+precommit2=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $6}' |cut -d'=' -f2)
+commit1=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $7}' |cut -d'=' -f2)
+commit2=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $8}' |cut -d'=' -f2)
+unseal=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $9}' |cut -d'=' -f2)
 
 # run lotus-worker
 cd /root
