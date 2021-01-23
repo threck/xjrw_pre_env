@@ -17,7 +17,7 @@ function do_check_pro_env() {
 }
 
 function do_check_conf_env() {
-    vars=$#
+    vars=$@
     for tmp in ${vars}
     do
       value=$(grep ${tmp} ${json} |cut -d: -f2)
@@ -26,7 +26,7 @@ function do_check_conf_env() {
 }
 
 function do_check_file() {
-    vars=$#
+    vars=$@
     for tmp in ${vars}
     do
       value=$(eval "echo \${${tmp}}")
