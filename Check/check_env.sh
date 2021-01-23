@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-source ../common.sh
+
+LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
+BASEDIR=${LOCALDIR}/..
+source ${BASEDIR}/common.sh
 
 #[MINER-/etc/profile]
 #[MINER-config.json]
@@ -71,10 +74,7 @@ function check_worker_file() {
 
 function main() {
     type=$1
-    if [ -z "${type}" ]; then
-      echo "please run as: bash $0 [ miner | worker ]"
-      exit 1
-    elif [[ ${type} == "miner" ]]; then
+    if [[ ${type} == "miner" ]]; then
       check_miner_pro_env
       check_miner_conf_env
       check_miner_file
@@ -84,7 +84,13 @@ function main() {
     fi
 }
 
-conf=check_env.conf
+if [ -z "$1" ]; then
+  echo "please run as: bash $0 [ miner | worker ]"
+  exit 1
+fi
+
+
+conf=${LOCALDIR}/check_env.conf
 json=/root/config.json
 miner_pro_env=$(sed -n '/MINER-\/etc\/profile/,/MINER-config.json/p' ${conf} |grep -v ^$ |grep -v '^\[')
 miner_conf_env=$(sed -n '/MINER-config.json/,/MINER-files/p' ${conf} |grep -v ^$ |grep -v '^\[')
