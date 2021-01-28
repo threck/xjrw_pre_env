@@ -9,7 +9,7 @@ ip=$(ifconfig |grep 192 |awk -F' ' '{print $2}')
 log=$0${t}.log
 
 # judge if there's a jenkins process
-pid=$(ps -ef |grep jenkins |grep -v grep |awk -F' ' '{print $2}')
+pid=$(ps -ef |grep jenkins-agent |grep -v grep |awk -F' ' '{print $2}')
 if [ -n "${pid}" ]; then
   log_info "jenkins process [${pid}] found."
   log_info "quit"
@@ -22,7 +22,7 @@ nohup java -jar ${LOCALDIR}/agent.jar -jnlpUrl http://${ip}:8081/computer/miner_
 -secret @secret-file -workDir "/var/jenkins_home" &> ${log} &
 
 # check if jenkins start success
-pid=$(ps -ef |grep jenkins |grep -v grep |awk -F' ' '{print $2}')
+pid=$(ps -ef |grep jenkins-agent |grep -v grep |awk -F' ' '{print $2}')
 if [ -z "${pid}" ]; then
   log_err "starting jenkins on ${ip} ... failed"
 else
