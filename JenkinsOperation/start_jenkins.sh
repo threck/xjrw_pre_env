@@ -20,14 +20,14 @@ nodename=$1
 # judge if there's a jenkins process
 pid=$(ps -ef |grep jenkins-agent |grep -v grep |awk -F' ' '{print $2}')
 if [ -n "${pid}" ]; then
-  log_info "jenkins process [${pid}] found."
+  log_info "there a jenkins process [${pid}] found already."
   log_info "quit"
   exit 0
 fi
 
 # start jenkins
 log_info "starting jenkins on ${ip} ..."
-nohup java -jar ${LOCALDIR}/agent.jar -jnlpUrl http://192.168.0.4:8081/computer/miner_201/jenkins-agent.jnlp \
+nohup java -jar ${LOCALDIR}/agent.jar -jnlpUrl http://192.168.0.4:8081/computer/${nodename}/jenkins-agent.jnlp \
 -secret @secret-file -workDir "/var/jenkins_home" &> ${log} &
 
 # check if jenkins start success
