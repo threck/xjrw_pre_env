@@ -13,7 +13,7 @@ fi
 
 t=$(date +%Y%m%d%H%M%S)
 ip=$(ifconfig |grep 192 |awk -F' ' '{print $2}')
-log=$0${t}.log
+log=${LOCALDIR}/$0${t}.log
 nodename=$1
 
 
