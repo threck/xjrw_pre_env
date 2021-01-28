@@ -8,6 +8,14 @@ t=$(date +%Y%m%d%H%M%S)
 ip=$(ifconfig |grep 192 |awk -F' ' '{print $2}')
 log=$0${t}.log
 
+# judge if there's a jenkins process
+pid=$(ps -ef |grep jenkins |grep -v grep |awk -F' ' '{print $2}')
+if [ -n "${pid}" ]; then
+  log_info "jenkins process [${pid}] found."
+  log_info "quit"
+  exit 0
+fi
+
 # start jenkins
 log_info "starting jenkins on ${ip} ..."
 nohup java -jar ${LOCALDIR}/agent.jar -jnlpUrl http://${ip}:8081/computer/miner_201/jenkins-agent.jnlp \
@@ -15,10 +23,10 @@ nohup java -jar ${LOCALDIR}/agent.jar -jnlpUrl http://${ip}:8081/computer/miner_
 
 # check if jenkins start success
 pid=$(ps -ef |grep jenkins |grep -v grep |awk -F' ' '{print $2}')
-if [ -z ${pid} ]; then
+if [ -z "${pid}" ]; then
   log_err "starting jenkins on ${ip} ... failed"
 else
-  log_info "starting jenkins on ${ip} ... success"
+  log_info "starting jenkins on ${ip} ... success. pid [${pid}]"
 fi
 
 log_info "logs: ${log}"
