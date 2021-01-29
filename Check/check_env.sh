@@ -10,6 +10,9 @@ source ${BASEDIR}/common.sh
 #[WORKER-/etc/profile]
 #[WORKER-files]
 
+# check env variables and files needed before start MINER or WORKER
+# finished
+
 function do_check_pro_env() {
     vars=$@
     for tmp in ${vars}
