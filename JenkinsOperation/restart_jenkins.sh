@@ -7,6 +7,7 @@ if [ -z "$1" ]; then
   echo "e.g. bash $0 2k_miner_150"
   exit 1
 fi
-
-bash ${LOCALDIR}/stop_jenkins.sh
-bash ${LOCALDIR}/start_jenkins.sh $1
+cd ${LOCALDIR}
+bash stop_jenkins.sh
+bash start_jenkins.sh $1
+cd - &> /dev/null
