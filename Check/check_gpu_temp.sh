@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 # check the temperature of GPU
+# finished
 interval=$1
+if [ -z "${interval}" ]; then
+  echo "please run as: bash $0 [ ${interval time} ](units: S)"
+  echo "e.g. bash $0 1"
+  exit 1
+fi
+
 log=$0.log
 rm -rf ${log}
 echo "GPU temperature check ..."

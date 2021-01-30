@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
-BASEDIR=${LOCALDIR}/..
-source ${BASEDIR}/common.sh
+BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
+source ${BASEDIR}/Common/Log.sh
 
 # judge if there's a jenkins process
 pid=$(ps -ef |grep jenkins-agent |grep -v grep |awk -F' ' '{print $2}')

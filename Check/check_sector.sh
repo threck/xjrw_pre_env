@@ -1,4 +1,4 @@
-tmpfile=sealing_jobs.log.tmp
+tmpfile=$0.tmp
 logfile=$0.log
 rm -rf ${logfile}
 while true; do

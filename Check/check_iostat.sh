@@ -5,7 +5,7 @@ log=${0}.log
 rm -rf ${log}
 
 for ((i=0;i<${runtime};i++)); do
-  echo loop${i}
+  echo iostat_loop${i}
   date >> ${log}
   iostat >> ${log}
   sleep 1s

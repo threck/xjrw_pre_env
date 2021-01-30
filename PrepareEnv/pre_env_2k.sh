@@ -1,75 +1,47 @@
 #!/bin/bash
-source ./common.sh
-GENESIS_PATH=/root/.genesis-sectors
-APP_PATH=/root
 
-# 1.check some env
-echo "checking env var ..."
-[ -z "${LOTUS_PATH}" ] && echo "env LOTUS_PATH is null! please set it!" && exit 1
-[ -z "${LOTUS_MINER_PATH}" ] && echo "env LOTUS_MINER_PATH is null! please set it!" && exit 1
-[ -z "${LOTUS_WORKER_PATH}" ] && echo "env LOTUS_WORKER_PATH is null! please set it!" && exit 1
+LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
+BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
+source ${BASEDIR}/Common/NetWork.sh
 
-# 2.cleaning genesis_sectors;lotusdata;lotusminer;
-echo "cleaning environment ..."
-  # remove data of genesis-sectors
-if [ -n "${GENESIS_PATH}" ]; then
-    rm -rf ${GENESIS_PATH}
-    [ ! -d "${GENESIS_PATH}" ] && echo "removing ${GENESIS_PATH} success!"
-fi
-  # remove data of lotusdate
-if [ -n "${LOTUS_PATH}" ]; then
-    rm -rf ${LOTUS_PATH}
-    [ ! -d "${LOTUS_PATH}" ] && echo "removing ${LOTUS_PATH} success!"
-fi
-  # remove data of lotusminer
-if [ -n "${LOTUS_MINER_PATH}" ]; then
-    rm -rf ${LOTUS_MINER_PATH}
-    [ ! -d "${LOTUS_MINER_PATH}" ] && echo "removing ${LOTUS_MINER_PATH} success!"
+# 0. check cluster network
+# check param
+if [ -z "$1" ]; then
+  echo "please run as: bash $0 [ miner_ip ]"
+  echo "e.g. bash $0 192.168.0.150"
+  exit 1
 fi
 
-# 3.run lotus daemon
-cd ${APP_PATH}
-./lotus fetch-params 2048
-
-./lotus-seed pre-seal --sector-size 2KiB --num-sectors 2
-
-./lotus-seed genesis new localnet.json
-
-./lotus-seed genesis add-miner localnet.json ${GENESIS_PATH}/pre-seal-t01000.json
-
-nohup ./lotus daemon --lotus-make-genesis=devgen.car --genesis-template=localnet.json --bootstrap=false &> lotus.log &
-
-# 4.run lotus-deamon
-./lotus wallet import --as-default ${GENESIS_PATH}/pre-seal-t01000.key
-
-./lotus-miner init --genesis-miner --actor=t01000 --sector-size=2KiB --pre-sealed-sectors=${GENESIS_PATH} --pre-sealed-metadata=${GENESIS_PATH}/pre-seal-t01000.json --nosync
-
-# modify .lotusminer/config.coml
-m_ip=$(ifconfig |grep inet |grep -v 127 |awk '{printf $2}')
-sed -i "s/#  ListenAddress = \"\/ip4\/127.0.0.1/  ListenAddress = \"\/ip4\/${m_ip}/g" ${LOTUS_MINER_PATH}/config.toml
-sed -i "s/#  RemoteListenAddress = \"127.0.0.1:2345\"/  RemoteListenAddress = \"${m_ip}:2345\"/g" ${LOTUS_MINER_PATH}/config.toml
-sed -i 's/#  AllowAddPiece = true/  AllowAddPiece = false/g' ${LOTUS_MINER_PATH}/config.toml
-sed -i 's/#  AllowPreCommit1 = true/  AllowPreCommit1 = false/g' ${LOTUS_MINER_PATH}/config.toml
-sed -i 's/#  AllowPreCommit2 = true/  AllowPreCommit2 = false/g' ${LOTUS_MINER_PATH}/config.toml
-sed -i 's/#  AllowCommit1 = true/  AllowCommit1 = false/g' ${LOTUS_MINER_PATH}/config.toml
-sed -i 's/#  AllowCommit2 = true/  AllowCommit2 = false/g' ${LOTUS_MINER_PATH}/config.toml
-
-# run lotus-miner
-nohup ./lotus-miner run --nosync &> miner.log &
-
-# 5.start worker
-# prepare 3 files: api, token, lotus-worker
-workers=$(grep -v '^ *#' pre_env_2k.conf |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $2}' |cut -d'=' -f2)
-for ip in ${workers}
-do
-  ssh ${ip} "mkdir -p ${LOTUS_MINER_PATH}"
-  scp_with_log ${ip} ${LOTUS_MINER_PATH}/api ${LOTUS_MINER_PATH}/api
-  scp_with_log ${ip} ${LOTUS_MINER_PATH}/token ${LOTUS_MINER_PATH}/token
-  scp_with_log ${ip} ${APP_PATH}/lotus-worker ${APP_PATH}/lotus-worker
-done
-
-
-# run ./lotus-worker
-bash start_worker_2k.sh
+# check cluster network
+miner_ip=$1
+conf_file=${LOCALDIR}/pre_env_2k.$(echo ${miner_ip} |cut -d. -f4).conf
+cluster_list=$(grep -v '^ *#' ${conf_file} |grep -E "worker|miner" |awk -F' ' '{print $2}'|cut -d'=' -f2)
+check_network_connection "${cluster_list}"
 [ $? -ne 0 ] && exit 1
 
+# 1. copy miner_pre script to miner_ip
+miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}'|cut -d'=' -f2)
+ssh ${miner_ip} "mkdir -p ${LOCALDIR}"
+scp_to ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${miner_ip} ${LOCALDIR}
+scp_to ${LOCALDIR}/${conf_file} ${miner_ip} ${LOCALDIR}
+scp_to ${BASEDIR}/MinerOperation ${miner_ip} ${BASEDIR}/MinerOperation
+
+# 2. run miner_pre script
+ssh ${miner_ip} "bash ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${conf_file}"
+[ $? -ne 0 ] && exit 1
+
+# 3. copy worker_pre script to worker_ip
+exit_value=0
+worker_ip=$(grep -v '^ *#' ${conf_file} |grep "worker" |awk -F' ' '{print $2}'|cut -d'=' -f2)
+for worker in ${worker_ip}; do
+  ssh ${worker} "mkdir -p ${LOCALDIR}"
+  scp_to ${LOCALDIR}/pre_env_2k_worker.sh ${worker} ${LOCALDIR}
+  scp_to ${LOCALDIR}/${conf_file} ${worker} ${LOCALDIR}
+  scp_to ${BASEDIR}/MinerOperation ${worker} ${BASEDIR}/MinerOperation
+  # 4. run worker_pre script
+  ssh ${worker} "bash ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"
+  v=$?
+  exit_value=$((exit_value+v))
+done
+
+exit ${exit_value}

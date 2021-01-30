@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
-BASEDIR=${LOCALDIR}/..
-source ${BASEDIR}/common.sh
+BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
+source ${BASEDIR}/Common/Log.sh
 
 
 if [ -z "$1" ]; then
@@ -13,7 +13,7 @@ fi
 
 t=$(date +%Y%m%d%H%M%S)
 ip=$(ifconfig |grep 192 |awk -F' ' '{print $2}')
-log=${LOCALDIR}/$0${t}.log
+log=${LOCALDIR}/$0.${t}.log
 nodename=$1
 
 
@@ -34,6 +34,8 @@ nohup java -jar ${LOCALDIR}/agent.jar -jnlpUrl http://192.168.0.4:8081/computer/
 pid=$(ps -ef |grep jenkins-agent |grep -v grep |awk -F' ' '{print $2}')
 if [ -z "${pid}" ]; then
   log_err "starting jenkins on ${ip} ... failed"
+  log_info "maybe ${LOCALDIR}/secret-file is wrong?"
+  log_info "check http://192.168.0.4:8081/computer/${nodename}/ to confirm"
 else
   log_info "starting jenkins on ${ip} ... success. pid [${pid}]"
 fi

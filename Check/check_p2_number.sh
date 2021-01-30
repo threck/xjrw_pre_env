@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-#check if p2 wait sectorID is same , after reboot P2 workers
+# check if p2 wait sectorID is same , after reboot P2 workers
+# finished
 
 source ../common.sh
 ip=$1
