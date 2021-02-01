@@ -13,7 +13,7 @@ if [ -z "$1" ]; then
 fi
 
 # check cluster network
-conf_file=$1
+conf_file=${LOCALDIR}/${1##*/}
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}'|cut -d'=' -f2)
 worker_ip=$(grep -v '^ *#' ${conf_file} |grep "worker" |awk -F' ' '{print $2}'|cut -d'=' -f2)
 log_info "cluster miner: ${miner_ip}"
