@@ -18,6 +18,7 @@ log_info "check environment variables ..."
 [ -z "${LOTUS_PATH}" ] && echo "env LOTUS_PATH is null! please set it!" && exit 1
 [ -z "${LOTUS_STORAGE_PATH}" ] && echo "env LOTUS_STORAGE_PATH is null! please set it!" && exit 1
 is_file_exist "${conf_file}"
+[ $? -ne 0 ] && exit 1
 check_process_not_exist "lotus"
 [ $? -ne 0 ] && exit 1
 
