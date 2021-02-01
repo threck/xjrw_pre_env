@@ -27,7 +27,7 @@ EOF
     return $?
 }
 
-function cp_to_remote()
+function sync_to_remote()
 {
     local source_dir=$1
     local target_ip=$2
@@ -48,7 +48,7 @@ EOF
     return $?
 }
 
-function cp_from_remote(){
+function sync_from_remote(){
     local source_ip=$1
     local source_user=$2
     local source_pwd=$3

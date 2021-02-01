@@ -12,7 +12,7 @@ conf_file=$1
 
 # 1.check some env
 log_info "===setup worker==="
-[ -z "${LOTUS_WORKER_PATH}" ] && echo "env LOTUS_WORKER_PATH is null! please set it!" && exit 1
+[ -z "${WORKER_PATH}" ] && echo "env WORKER_PATH is null! please set it!" && exit 1
 check_process_not_exist "lotus-worker"
 if [ $? -ne 0 ]; then
   bash ${BASEDIR}/MinerOperation/stop_worker.sh
@@ -20,7 +20,7 @@ fi
 
 # 2.cleaning lotusworker;
 log_info "cleaning environment ..."
-remove_directory "${LOTUS_WORKER_PATH}"
+remove_directory "${WORKER_PATH}"
 [ $? -ne 0 ] && exit 1
 
 
@@ -28,9 +28,9 @@ remove_directory "${LOTUS_WORKER_PATH}"
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |grep ${LOCAL_IP} |awk -F' ' '{print $2}' |cut -d'=' -f2)
 mkdir -p ${LOTUS_STORAGE_PATH}
 
-cp_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/api ${LOTUS_STORAGE_PATH}
-cp_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/token ${LOTUS_STORAGE_PATH}
-cp_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${APP_PATH}/lotus-worker ${APP_PATH}
+sync_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/api ${LOTUS_STORAGE_PATH}
+sync_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/token ${LOTUS_STORAGE_PATH}
+sync_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${APP_PATH}/lotus-worker ${APP_PATH}
 
 # 4.launch lotus-worker
 bash ${BASEDIR}/MinerOperation/start_worker.sh ${conf_file}
