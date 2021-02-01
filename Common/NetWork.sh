@@ -13,7 +13,7 @@ function run_command_remote(){
     remoute_pwd=$1
     shift
     remoute_cmd=$@
-    log_info "ssh ${remoute_usr}@${remoute_ip} \"${remoute_cmd}\""
+    log_info "run command on : ${remoute_ip} -> \"${remoute_cmd}\""
     expect <<EOF
     set timeout 180
     spawn ssh ${remoute_usr}@${remoute_ip} "${remoute_cmd}"
@@ -34,7 +34,7 @@ function cp_to_remote()
     local target_user=$3
     local target_pwd=$4
     local target_dir=$5
-    log_info "rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir} ..."
+    log_info "sync file: ${source_dir} -> ${target_ip}:${target_dir} ..."
     expect <<EOF
     set timeout 1800
     spawn rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir}
@@ -54,7 +54,7 @@ function cp_from_remote(){
     local source_pwd=$3
     local source_dir=$4
     local target_dir=$5
-    log_info "rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir} ..."
+    log_info "sync file: ${source_ip}:${source_dir} -> ${target_dir} ..."
     expect <<EOF
     set timeout 1800
     spawn rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir}
