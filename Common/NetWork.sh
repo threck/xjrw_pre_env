@@ -34,10 +34,10 @@ function cp_to_remote()
     local target_user=$3
     local target_pwd=$4
     local target_dir=$5
-    echo "rsync -av ${source_dir}/ ${target_user}@${target_ip}:${target_dir} ..."
+    echo "rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir} ..."
     expect <<EOF
     set timeout 1800
-    spawn rsync -av ${source_dir}/ ${target_user}@${target_ip}:${target_dir}
+    spawn rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir}
     expect {
     "*yes*" {send "yes\r";exp_continue}
     "*password*" {send "${target_pwd}\r";exp_continue}
@@ -54,10 +54,10 @@ function cp_from_remote(){
     local source_pwd=$3
     local source_dir=$4
     local target_dir=$5
-    echo "rsync -av ${source_user}@${source_ip}:${source_dir}/ ${target_dir} ..."
+    echo "rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir} ..."
     expect <<EOF
     set timeout 1800
-    spawn rsync -av ${source_user}@${source_ip}:${source_dir}/ ${target_dir}
+    spawn rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir}
     expect {
     "*yes*" {send "yes\r";exp_continue}
     "*password*" {send "${source_pwd}\r";exp_continue}
