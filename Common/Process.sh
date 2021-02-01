@@ -12,7 +12,7 @@ function check_process_not_exist(){
     log_info "process [ ${process} ] not exist."
     return_value=0
   else
-    log_err "process [ ${process} ] exist."
+    log_warn "process [ ${process} ] exist."
     return_value=1
   fi
   return ${return_value}

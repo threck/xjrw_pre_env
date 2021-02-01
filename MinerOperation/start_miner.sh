@@ -19,9 +19,10 @@ fi
 
 # launch lotus-miner
 cd ${APP_PATH}
-log_info "starting lotus-miner on ${ip} ..."
+log_info "launch lotus-miner on ${ip} ..."
+log_info "launch param: ./lotus-miner run --nosync ..."
 nohup ./lotus-miner run --nosync &> ${log} &
-log_info "logs: ${log}"
+log_info "lotus-miner logs: ${log}"
 
 # wait for launch
 v1=1

@@ -11,6 +11,12 @@ APP_PATH=/root
 TMP=/tmp/${0##*/}.tmp
 conf_file=$1
 
+if [ -z "${conf_file}" ]; then
+  echo "please run as: bash $0 [ conf_file ]"
+  echo "e.g. bash $0 miner_cluster.150.conf"
+  exit 1
+fi
+
 # --initialize lotus daemon
 log_info "===initialize lotus daemon==="
 # 1.check some env

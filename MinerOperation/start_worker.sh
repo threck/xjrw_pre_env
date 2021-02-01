@@ -38,6 +38,9 @@ unseal=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{pr
 
 # run lotus-worker
 cd ${APP_PATH}
+log_info "launch worker ..."
+log_info "launch pram: ./lotus-worker run --listen=${LOCAL_IP}:${port} --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} --commit1=${commit1} --commit2=${commit2} --unseal=${unseal}"
+log_info "lotus-worker log: ${log}"
 nohup ./lotus-worker run --listen=${LOCAL_IP}:${port} \
 --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} \
 --commit1=${commit1} --commit2=${commit2} --unseal=${unseal} \
