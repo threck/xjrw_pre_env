@@ -19,6 +19,8 @@ fi
 # 1.check some env
 log_info "===setup worker==="
 [ -z "${WORKER_PATH}" ] && echo "env WORKER_PATH is null! please set it!" && exit 1
+[ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
+[ -z "${M_PWD}" ] && echo "env M_PWD is null! please set it!" && exit 1
 check_process_not_exist "lotus-worker"
 if [ $? -ne 0 ]; then
   bash ${BASEDIR}/MinerOperation/stop_worker.sh
