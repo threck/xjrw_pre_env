@@ -8,7 +8,7 @@ source ${BASEDIR}/Common/Process.sh
 
 GENESIS_PATH=/root/.genesis-sectors
 APP_PATH=/root
-TMP=/tmp/$0.tmp
+TMP=/tmp/${0##*/}.tmp
 conf_file=$1
 
 # --initialize lotus daemon
@@ -37,7 +37,7 @@ remove_directory "${LOTUS_STORAGE_PATH}"
 # 3.run lotus daemon
 cd ${APP_PATH}
 log_info "Download the 2048 byte parameters ..."
-./lotus fetch-params 2048 |tee ${TMP}
+./lotus fetch-params 2048 2>&1 |tee ${TMP}
 grep 'parameter and key-fetching complete' ${TMP} &> /dev/null
 if [ $? -eq 0 ]; then
   log_info "Download the 2048 byte parameters ... success"
@@ -65,8 +65,8 @@ else
   exit 1
 fi
 
-./lotus-seed genesis add-miner localnet.json ${GENESIS_PATH}/pre-seal-t01000.json |tee ${TMP}
-grep "Adding miner f01000 to genesis template" ${TMP} &> /dev/null
+./lotus-seed genesis add-miner localnet.json ${GENESIS_PATH}/pre-seal-t01000.json 2>&1 |tee ${TMP}
+grep "Adding miner t01000 to genesis template" ${TMP} &> /dev/null
 rtv1=$?
 grep "Giving .* some initial balance" ${TMP} &> /dev/null
 rtv2=$?
@@ -97,7 +97,7 @@ is_directory_exist "${LOTUS_PATH}"
 
 # 4.run lotus-deamon
 log_info "import the genesis miner key ..."
-./lotus wallet import --as-default ${GENESIS_PATH}/pre-seal-t01000.key |tee ${TMP}
+./lotus wallet import --as-default ${GENESIS_PATH}/pre-seal-t01000.key 2>&1 |tee ${TMP}
 grep "imported key .* successfully!" ${TMP} &> /dev/null
 if [ $? -eq 0 ]; then
   log_info "import the genesis miner key ... success"
@@ -113,7 +113,7 @@ log_info "===initialize lotus miner==="
 log_info "initialize miner ..."
 ./lotus-miner init --genesis-miner --actor=t01000 --sector-size=2KiB \
 --pre-sealed-sectors=${GENESIS_PATH} --pre-sealed-metadata=${GENESIS_PATH}/pre-seal-t01000.json \
---nosync |tee ${TMP}
+--nosync 2>&1 |tee ${TMP}
 grep "Miner successfully created" ${TMP} &> /dev/null
 if [ $? -eq 0 ]; then
   log_info "initialize miner ... success"

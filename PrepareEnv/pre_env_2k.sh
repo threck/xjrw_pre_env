@@ -30,7 +30,7 @@ cp_to_remote ${BASEDIR}/MinerOperation/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR
 cp_to_remote ${BASEDIR}/Common/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/Common
 
 # 2. run miner_pre script
-run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${conf_file}"
+run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${conf_file}"
 [ $? -ne 0 ] && exit 1
 
 # 3. copy worker_pre script to worker_ip
@@ -42,7 +42,7 @@ for worker_ip_tmp in ${worker_ip}; do
   cp_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
   cp_to_remote ${BASEDIR}/Common/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Common
   # 4. run worker_pre script
-  run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"
+  run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"
   v=$?
   exit_value=$((exit_value+v))
 done

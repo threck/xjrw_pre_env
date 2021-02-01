@@ -7,7 +7,7 @@ source ${BASEDIR}/Common/Log.sh
 function check_process_not_exist(){
   process=$1
   pid=$(ps -ef |grep ${process} |grep -v grep |awk -F' ' '{print $2}')
-  if [ -n "${pid}" ]; then
+  if [ -z "${pid}" ]; then
     log_info "process [ ${process} ] not exist."
     return_value=0
   else

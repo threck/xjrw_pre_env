@@ -37,7 +37,7 @@ function cp_to_remote()
     log_info "rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir} ..."
     expect <<EOF
     set timeout 1800
-    spawn rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir}
+    spawn rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir} &> /dev/null
     expect {
     "*yes*" {send "yes\r";exp_continue}
     "*password*" {send "${target_pwd}\r";exp_continue}
@@ -57,7 +57,7 @@ function cp_from_remote(){
     log_info "rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir} ..."
     expect <<EOF
     set timeout 1800
-    spawn rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir}
+    spawn rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir} &> /dev/null
     expect {
     "*yes*" {send "yes\r";exp_continue}
     "*password*" {send "${source_pwd}\r";exp_continue}
@@ -73,7 +73,6 @@ function check_network_connection() {
   return_value=0
   log_info "checking connection to: [ ${ip_list} ]"
   for ip in ${ip_list}; do
-    log_info "ping ${ip} ..."
     ping ${ip} -c 4 &> /dev/null
     if [ $? -eq 0 ]; then
       log_info "ping ${ip} ... network good."
