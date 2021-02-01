@@ -28,9 +28,9 @@ remove_directory "${LOTUS_WORKER_PATH}"
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |grep ${LOCAL_IP} |awk -F' ' '{print $2}' |cut -d'=' -f2)
 mkdir -p ${LOTUS_STORAGE_PATH}
 
-scp_from ${miner_ip} ${LOTUS_STORAGE_PATH}/api ${LOTUS_STORAGE_PATH}/api
-scp_from ${miner_ip} ${LOTUS_STORAGE_PATH}/token ${LOTUS_STORAGE_PATH}/token
-scp_from ${miner_ip} ${APP_PATH}/lotus-worker ${APP_PATH}/lotus-worker
+cp_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/api ${LOTUS_STORAGE_PATH}
+cp_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/token ${LOTUS_STORAGE_PATH}
+cp_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${APP_PATH}/lotus-worker ${APP_PATH}
 
 # 4.launch lotus-worker
 bash ${BASEDIR}/MinerOperation/start_worker.sh ${conf_file}
