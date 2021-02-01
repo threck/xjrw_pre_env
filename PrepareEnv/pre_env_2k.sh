@@ -35,9 +35,10 @@ run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2
 [ $? -ne 0 ] && exit 1
 
 # 3. copy worker_pre script to worker_ip
-log_info "prepare for cluster-worker ..."
+
 exit_value=0
 for worker_ip_tmp in ${worker_ip}; do
+  log_info "prepare for cluster-worker: ${worker_ip_tmp} ..."
   run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
   sync_to_remote ${LOCALDIR}/pre_env_2k_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}

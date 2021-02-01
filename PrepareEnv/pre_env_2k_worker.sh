@@ -15,9 +15,11 @@ if [ -z "${conf_file}" ]; then
   echo "e.g. bash $0 miner_cluster.150.conf"
   exit 1
 fi
+is_file_exist "${conf_file}"
+[ $? -ne 0 ] && exit 1
 
 # 1.check some env
-log_info "===setup worker==="
+log_info "===setup worker: ${LOCAL_IP}==="
 [ -z "${WORKER_PATH}" ] && echo "env WORKER_PATH is null! please set it!" && exit 1
 [ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
 [ -z "${M_PWD}" ] && echo "env M_PWD is null! please set it!" && exit 1
@@ -33,7 +35,7 @@ remove_directory "${WORKER_PATH}"
 
 
 # 3.prepare 3 files: api, token, lotus-worker
-miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |grep ${LOCAL_IP} |awk -F' ' '{print $2}' |cut -d'=' -f2)
+miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
 mkdir -p ${LOTUS_STORAGE_PATH}
 
 sync_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/api ${LOTUS_STORAGE_PATH}
