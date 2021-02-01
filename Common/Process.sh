@@ -6,7 +6,8 @@ source ${BASEDIR}/Common/Log.sh
 
 function check_process_not_exist(){
   process=$1
-  pid=$(ps -ef |grep ${process} |grep -v grep |awk -F' ' '{print $2}')
+  log_info "checking process: ${process}"
+  pid=$(ps -ef |grep ${process} |grep -v grep |grep -v pre_env_2k_lotus_miner |awk -F' ' '{print $2}')
   if [ -z "${pid}" ]; then
     log_info "process [ ${process} ] not exist."
     return_value=0
