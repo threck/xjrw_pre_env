@@ -37,7 +37,7 @@ function sync_to_remote()
     log_info "sync file: ${source_dir} -> ${target_ip}:${target_dir} ..."
     expect <<EOF
     set timeout 1800
-    spawn rsync -av ${source_dir} ${target_user}@${target_ip}:${target_dir}
+    spawn rsync -a ${source_dir} ${target_user}@${target_ip}:${target_dir}
     expect {
     "*yes*" {send "yes\r";exp_continue}
     "*password*" {send "${target_pwd}\r";exp_continue}
@@ -57,7 +57,7 @@ function sync_from_remote(){
     log_info "sync file: ${source_ip}:${source_dir} -> ${target_dir} ..."
     expect <<EOF
     set timeout 1800
-    spawn rsync -av ${source_user}@${source_ip}:${source_dir} ${target_dir}
+    spawn rsync -a ${source_user}@${source_ip}:${source_dir} ${target_dir}
     expect {
     "*yes*" {send "yes\r";exp_continue}
     "*password*" {send "${source_pwd}\r";exp_continue}
