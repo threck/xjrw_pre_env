@@ -154,5 +154,6 @@ cat ${miner_conf}
 
 # do run
 bash ${BASEDIR}/MinerOperation/start_miner.sh
-log_info "pre_env_2k_lotus_miner.sh return value: $?"
-exit $?
+return_value=$?
+log_info "pre_env_2k_lotus_miner.sh return value: ${return_value}"
+exit ${return_value}
