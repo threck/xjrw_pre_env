@@ -37,6 +37,12 @@ function sync_to_remote()
     local target_user=$3
     local target_pwd=$4
     local target_dir=$5
+    [ -z "${source_dir}" ] && echo "source_dir is null! please check!" && return 1
+    [ -z "${target_ip}" ] && echo "target_ip is null! please check!" && return 1
+    [ -z "${target_user}" ] && echo "target_user is null! please check!" && return 1
+    [ -z "${target_pwd}" ] && echo "target_pwd is null! please check!" && return 1
+    [ -z "${target_dir}" ] && echo "target_dir is null! please check!" && return 1
+
     log_info "sync file: ${source_dir} -> ${target_ip}:${target_dir} ..."
     expect <<EOF
     set timeout 1800
@@ -57,6 +63,12 @@ function sync_from_remote(){
     local source_pwd=$3
     local source_dir=$4
     local target_dir=$5
+    [ -z "${source_ip}" ] && echo "source_ip is null! please check!" && return 1
+    [ -z "${source_user}" ] && echo "source_user is null! please check!" && return 1
+    [ -z "${source_pwd}" ] && echo "source_pwd is null! please check!" && return 1
+    [ -z "${source_dir}" ] && echo "source_dir is null! please check!" && return 1
+    [ -z "${target_dir}" ] && echo "target_dir is null! please check!" && return 1
+
     log_info "sync file: ${source_ip}:${source_dir} -> ${target_dir} ..."
     expect <<EOF
     set timeout 1800
