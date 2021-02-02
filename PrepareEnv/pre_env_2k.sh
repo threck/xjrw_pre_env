@@ -8,9 +8,11 @@ source ${BASEDIR}/Common/NetWork.sh
 # check param
 if [ -z "$1" ]; then
   echo "please run as: bash $0 [ conf_file ]"
-  echo "e.g. bash $0 miner_cluster.150.conf"
+  echo "e.g. bash $0 miner_cluster_150.conf"
   exit 1
 fi
+[ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
+[ -z "${M_PWD}" ] && echo "env M_PWD is null! please set it!" && exit 1
 
 # check cluster network
 conf_file=${LOCALDIR}/${1##*/}
