@@ -52,4 +52,5 @@ for worker_ip_tmp in ${worker_ip}; do
   exit_value=$((exit_value+v))
 done
 
+log_info "pre_env_2k.sh return value: ${exit_value}"
 exit ${exit_value}

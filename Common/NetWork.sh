@@ -5,8 +5,6 @@ BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
 source ${BASEDIR}/Common/Log.sh
 
 function run_command_remote(){
-    # route_run_command 192.168.0.110 root 123456 'ls filename'
-    echo "$@"
     remoute_ip=$1
     shift
     remoute_usr=$1

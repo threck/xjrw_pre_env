@@ -44,5 +44,6 @@ sync_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${APP_PATH}/lotus-worker ${APP_P
 
 # 4.launch lotus-worker
 bash ${BASEDIR}/MinerOperation/start_worker.sh ${conf_file}
-[ $? -ne 0 ] && exit 1
+log_info "pre_env_2k_worker.sh return value: $?"
+exit $?
 
