@@ -6,6 +6,7 @@ source ${BASEDIR}/Common/Log.sh
 
 function run_command_remote(){
     # route_run_command 192.168.0.110 root 123456 'ls filename'
+    echo "$@"
     remoute_ip=$1
     shift
     remoute_usr=$1
@@ -13,7 +14,7 @@ function run_command_remote(){
     remoute_pwd=$1
     shift
     remoute_cmd=$@
-    log_info "run command on : ${remoute_ip} -> \"${remoute_cmd}\""
+    log_info "run command on : ${remoute_ip} -> ${remoute_cmd}"
     expect <<EOF
     set timeout 180
     spawn ssh ${remoute_usr}@${remoute_ip} "${remoute_cmd}"
