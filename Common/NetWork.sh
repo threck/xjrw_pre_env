@@ -12,6 +12,10 @@ function run_command_remote(){
     remoute_pwd=$1
     shift
     remoute_cmd=$@
+    [ -z "${remoute_ip}" ] && echo "remoute_ip is null! please check!" && return 1
+    [ -z "${remoute_usr}" ] && echo "remoute_usr is null! please check!" && return 1
+    [ -z "${remoute_pwd}" ] && echo "remoute_pwd is null! please check!" && return 1
+    [ -z "${remoute_cmd}" ] && echo "remoute_cmd is null! please check!" && return 1
     log_info "run command on : ${remoute_ip} -> ${remoute_cmd}"
     expect <<EOF
     set timeout 180

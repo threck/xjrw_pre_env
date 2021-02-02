@@ -25,7 +25,7 @@ check_network_connection "${cluster_list}"
 [ $? -ne 0 ] && exit 1
 
 # 1. copy miner_pre script to miner_ip
-log_info "prepare for cluster-miner ..."
+log_info "prepare for cluster-miner : ${miner_ip}..."
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
 sync_to_remote ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 sync_to_remote ${conf_file} ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
