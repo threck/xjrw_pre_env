@@ -29,10 +29,15 @@ check_network_connection "${cluster_list}"
 # 1. copy miner_pre script to miner_ip
 log_info "prepare for cluster-miner : ${miner_ip}..."
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
+[ $? -ne 0 ] && exit 1
 sync_to_remote ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
+[ $? -ne 0 ] && exit 1
 sync_to_remote ${conf_file} ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
+[ $? -ne 0 ] && exit 1
 sync_to_remote ${BASEDIR}/MinerOperation/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
+[ $? -ne 0 ] && exit 1
 sync_to_remote ${BASEDIR}/Common/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/Common
+[ $? -ne 0 ] && exit 1
 
 # 2. run miner_pre script
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${conf_file}"
@@ -44,14 +49,18 @@ exit_value=0
 for worker_ip_tmp in ${worker_ip}; do
   log_info "prepare for cluster-worker: ${worker_ip_tmp} ..."
   run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
+  v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${LOCALDIR}/pre_env_2k_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+  v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+  v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
+  v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${BASEDIR}/Common/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Common
+  v=$? && exit_value=$((exit_value+v))
   # 4. run worker_pre script
   run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"
-  v=$?
-  exit_value=$((exit_value+v))
+  v=$? && exit_value=$((exit_value+v))
 done
 
 log_info "pre_env_2k.sh return value: ${exit_value}"
