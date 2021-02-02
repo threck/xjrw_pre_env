@@ -3,6 +3,7 @@
 LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
 BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
 source ${BASEDIR}/Common/NetWork.sh
+source ${BASEDIR}/Common/FileDirectory.sh
 
 # 0. check cluster network
 # check param
@@ -16,6 +17,7 @@ fi
 
 # check cluster network
 conf_file=${LOCALDIR}/${1##*/}
+is_file_exist "${conf_file}"
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}'|cut -d'=' -f2)
 worker_ip=$(grep -v '^ *#' ${conf_file} |grep "worker" |awk -F' ' '{print $2}'|cut -d'=' -f2)
 log_info "cluster miner: ${miner_ip}"
