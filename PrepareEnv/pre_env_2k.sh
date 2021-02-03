@@ -38,6 +38,8 @@ sync_to_remote ${BASEDIR}/MinerOperation/ ${miner_ip} ${M_USER} ${M_PWD} ${BASED
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${BASEDIR}/Common/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/Common
 [ $? -ne 0 ] && exit 1
+sync_to_remote ${BASEDIR}/Check/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/Check
+[ $? -ne 0 ] && exit 1
 
 # 2. run miner_pre script
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${conf_file}"
@@ -57,6 +59,8 @@ for worker_ip_tmp in ${worker_ip}; do
   sync_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${BASEDIR}/Common/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Common
+  v=$? && exit_value=$((exit_value+v))
+  sync_to_remote ${BASEDIR}/Check/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Check
   v=$? && exit_value=$((exit_value+v))
   # 4. run worker_pre script
   run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"

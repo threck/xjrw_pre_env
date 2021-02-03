@@ -16,6 +16,8 @@ if [ -z "${conf_file}" ]; then
   echo "e.g. bash $0 miner_cluster.150.conf"
   exit 1
 fi
+# check env variables before initialize
+bash -l ${BASEDIR}/Check/check_env.sh miner
 
 # --initialize lotus daemon
 log_info "===initialize lotus daemon==="

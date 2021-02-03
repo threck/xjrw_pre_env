@@ -18,6 +18,9 @@ fi
 is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
 
+# check env variables before initialize
+bash -l ${BASEDIR}/Check/check_env.sh worker
+
 # 1.check some env
 log_info "===setup worker: ${LOCAL_IP}==="
 [ -z "${WORKER_PATH}" ] && echo "env WORKER_PATH is null! please set it!" && exit 1
