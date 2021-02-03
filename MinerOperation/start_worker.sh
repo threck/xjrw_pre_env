@@ -14,7 +14,7 @@ elif [ ! -f "$1" ]; then
 fi
 
 APP_PATH=/root
-LOCAL_IP=$(ifconfig |grep inet |grep -v 127 |awk '{printf $2}')
+LOCAL_IP=$(ifconfig |grep inet |grep -v 127.0.0.1 |awk '{printf $2}')
 conf=$1
 t=$(date +%Y%m%d%H%M%S)
 log=${APP_PATH}/worker.log.${t}
