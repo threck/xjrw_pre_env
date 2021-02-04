@@ -8,6 +8,7 @@ APP_PATH=/root
 t=$(date +%Y%m%d%H%M%S)
 ip=$(ifconfig |grep 192 |awk -F' ' '{print $2}')
 log=${APP_PATH}/miner.log.${t}
+ln_log=${APP_PATH}/miner.log
 
 # judge if there's a lotus-miner process
 pid=$(ps -ef |grep lotus-miner |grep -v grep |awk -F' ' '{print $2}')
@@ -46,10 +47,14 @@ done
 pid=$(ps -ef |grep lotus-miner |grep -v grep |awk -F' ' '{print $2}')
 if [ -n "${pid}" ]; then
   log_info "lotus-miner pid: ${pid}"
-  exit 0
+  exit_value=0
 else
   log_err "can't get lotus-miner pid."
-  exit 1
+  exit_value=1
 fi
 
+# set log soft link
+rm -rf ${ln_log}
+ln -s ${log} ${ln_log}
 
+exit ${exit_value}

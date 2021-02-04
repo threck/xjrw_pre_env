@@ -18,6 +18,7 @@ LOCAL_IP=$(ifconfig |grep inet |grep -v 127.0.0.1 |awk '{printf $2}')
 conf=$1
 t=$(date +%Y%m%d%H%M%S)
 log=${APP_PATH}/worker.log.${t}
+ln_log=${APP_PATH}/worker.log
 
 # judge if there's a lotus-woker process
 pid=$(ps -ef |grep lotus-woker |grep -v grep |awk -F' ' '{print $2}')
@@ -68,8 +69,14 @@ done
 pid=$(ps -ef |grep lotus-worker |grep -v grep |awk -F' ' '{print $2}')
 if [ -n "${pid}" ]; then
   log_info "lotus-worker pid: ${pid}"
-  exit 0
+  exit_value=0
 else
   log_err "can't get lotus-worker pid."
-  exit 1
+  exit_value=1
 fi
+
+# set log soft link
+rm -rf ${ln_log}
+ln -s ${log} ${ln_log}
+
+exit ${exit_value}
