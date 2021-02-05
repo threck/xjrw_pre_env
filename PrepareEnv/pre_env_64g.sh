@@ -35,7 +35,7 @@ sync_to_remote ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${miner_ip} ${M_USER} ${M_P
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${conf_file} ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 [ $? -ne 0 ] && exit 1
-sync_to_remote ${LOCALDIR}/profiles/profile_${type}_miner ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}/profiels/
+sync_to_remote ${LOCALDIR}/profiles/profile_${type}_miner ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}/profiles/
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${BASEDIR}/MinerOperation/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
 [ $? -ne 0 ] && exit 1
@@ -58,7 +58,7 @@ for worker_ip_tmp in ${worker_ip}; do
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${LOCALDIR}/profiles/profile_${type}_worker ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}/profiels/
+  sync_to_remote ${LOCALDIR}/profiles/profile_${type}_worker ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}/profiles/
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
   v=$? && exit_value=$((exit_value+v))
