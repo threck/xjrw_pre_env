@@ -46,7 +46,7 @@ remove_directory "${LOTUS_STORAGE_PATH}"
 # --initialize miner
 log_info "===initialize lotus miner==="
 # 0_1.choose a wallet
-wallet_addr=$(./lotus wallet list)
+wallet_addr=$(./lotus wallet list |tail -n 1 |cut -d' ' -f1)
 
 # 0_2.initialize miner
 log_info "initialize miner ..."
