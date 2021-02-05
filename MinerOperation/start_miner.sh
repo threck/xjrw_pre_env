@@ -60,7 +60,7 @@ done
 
 # check lotus-miner pid
 ps -ef |grep lotus-miner |grep -v grep |awk -F' ' '{print $2}' |grep ${pid} &> /dev/null
-if [ $? -ne 0 ]; then
+if [ $? -eq 0 ]; then
   log_info "lotus-miner pid: ${pid}"
   log_info "launch lotus-miner ... success"
   exit_value=0
