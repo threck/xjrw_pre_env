@@ -9,7 +9,7 @@ source ${BASEDIR}/Common/FileDirectory.sh
 # check param
 if [ -z "$1" ]; then
   echo "please run as: bash $0 [ conf_file ]"
-  echo "e.g. bash $0 miner_cluster_150.conf profile_2K_miner"
+  echo "e.g. bash $0 miner_cluster_201.conf profile_64g_miner"
   exit 1
 fi
 [ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
@@ -31,7 +31,7 @@ log_info "prepare for cluster-miner : ${miner_ip}..."
 type=$(echo $1|cut -d_ -f2)
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
 [ $? -ne 0 ] && exit 1
-sync_to_remote ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
+sync_to_remote ${LOCALDIR}/pre_env_64g_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${conf_file} ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 [ $? -ne 0 ] && exit 1
@@ -54,7 +54,7 @@ for worker_ip_tmp in ${worker_ip}; do
   log_info "prepare for cluster-worker: ${worker_ip_tmp} ..."
   run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
   v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${LOCALDIR}/pre_env_2k_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+  sync_to_remote ${LOCALDIR}/pre_env_64g_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   v=$? && exit_value=$((exit_value+v))
@@ -71,5 +71,5 @@ for worker_ip_tmp in ${worker_ip}; do
   v=$? && exit_value=$((exit_value+v))
 done
 
-log_info "pre_env_2k.sh return value: ${exit_value}"
+log_info "pre_env_64g.sh return value: ${exit_value}"
 exit ${exit_value}
