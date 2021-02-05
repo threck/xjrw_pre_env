@@ -8,7 +8,7 @@ export GOPROXY="https://goproxy.cn"
 
 # !!! must set when P1 P2 running on the same worker
 # could cancel when P1 P2 not running on the same worker
-#export DISPATCH_SERVER="miner_ip:54321"
+export DISPATCH_SERVER="miner_ip:54321"
 
 export LOTUS_STORAGE_PATH=/opt/hdd_pool/.lotusminer
 export WORKER_PATH=/opt/hdd_pool/.lotusworker
@@ -25,8 +25,8 @@ export FIL_PROOFS_MEM_ITEM_CNT=100
 #######################
 # for test environment -> set run time(S)
 #######################
-export AP_DELAY=240
-export P1_DELAY=720
+export AP_DELAY=241
+export P1_DELAY=722
 export P2_DELAY=320
 export C1_DELAY=0
 export C2_DELAY=360

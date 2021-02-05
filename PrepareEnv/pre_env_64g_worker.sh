@@ -19,6 +19,8 @@ is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
 
 type=$(echo ${conf_file##*/}|cut -d_ -f2)
+miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
+sed -i "s/miner_ip/${miner_ip}/g" ${conf_file}
 source ${LOCALDIR}/profiles/profile_${type}_worker
 
 # check env variables before initialize

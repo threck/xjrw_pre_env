@@ -18,7 +18,11 @@ fi
 is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
 
+
+
 type=$(echo ${conf_file##*/}|cut -d_ -f2)
+miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
+sed -i "s/miner_ip/${miner_ip}/g" ${conf_file}
 source ${LOCALDIR}/profiles/profile_${type}_worker
 
 # check env variables before initialize
@@ -40,7 +44,7 @@ remove_directory "${WORKER_PATH}"
 [ $? -ne 0 ] && exit 1
 
 # 3.prepare 3 files: api, token, lotus-worker
-miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
+
 mkdir -p ${LOTUS_STORAGE_PATH}
 
 sync_from_remote ${miner_ip} ${M_USER} ${M_PWD} ${LOTUS_STORAGE_PATH}/api ${LOTUS_STORAGE_PATH}

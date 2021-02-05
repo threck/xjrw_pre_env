@@ -17,7 +17,9 @@ if [ -z "${conf_file}" ]; then
   exit 1
 fi
 
+miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
 type=$(echo ${conf_file##*/}|cut -d_ -f2)
+sed -i "s/miner_ip/${miner_ip}/g" ${conf_file}
 source ${LOCALDIR}/profiles/profile_${type}_miner
 
 # check env variables before initialize
