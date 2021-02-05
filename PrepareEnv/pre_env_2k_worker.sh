@@ -24,7 +24,7 @@ type=$(echo ${conf_file##*/}|cut -d_ -f2)
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
 sed -i "s/miner_ip/${miner_ip}/g" ${LOCALDIR}/profiles/profile_${type}_worker
 source ${LOCALDIR}/profiles/profile_${type}_worker
-cp ${LOCALDIR}/profiles/profile_${type}_worker /root/
+cp ${LOCALDIR}/profiles/profile_${type}_worker /etc/
 
 # check env variables before initialize
 bash ${BASEDIR}/Check/check_env.sh worker
