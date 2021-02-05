@@ -34,8 +34,16 @@ log_info "check environment variables ..."
 [ -z "${LOTUS_STORAGE_PATH}" ] && echo "env LOTUS_STORAGE_PATH is null! please set it!" && exit 1
 is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
-check_process_not_exist "lotus-miner"
-[ $? -ne 0 ] && exit 1
+
+miner_pid=$(grep MINER_PID_${type} /etc/profile |awk -F'=' '{print $2}')
+if [ -n "${miner_pid}" ]; then
+# judge if there's a lotus-miner process
+  pid=$(ps -ef |grep lotus-miner |grep -v grep |awk '{print $2}' |grep ${miner_pid})
+  if [ -n "${pid}" ]; then
+    log_err "lotus-miner[${type}] process[${pid}] found"
+    exit 1
+  fi
+fi
 
 # 2.cleaning genesis_sectors;lotusdata;lotusminer;
 log_info "cleaning environment ..."
