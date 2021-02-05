@@ -1,0 +1,33 @@
+#######################
+# environment variables of 2k worker
+#######################
+export RUSTUP_DIST_SERVER="https://mirrors.sjtug.sjtu.edu.cn/rust-static"
+export RUSTUP_UPDATE_ROOT="https://mirrors.sjtug.sjtu.edu.cn/rust-static/rustup"
+export IPFS_GATEWAY="https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/"
+export GOPROXY="https://goproxy.cn"
+
+# !!! must set when P1 P2 running on the same worker
+# could cancel when P1 P2 not running on the same worker
+#export DISPATCH_SERVER="miner_ip:54321"
+
+export LOTUS_STORAGE_PATH=/opt/hdd_pool/.lotusminer
+export WORKER_PATH=/opt/hdd_pool/.lotusworker
+export TMPDIR=/opt/local_ssd/tmp
+
+export RUST_LOG=Trace
+export RUSTFLAGS="-C target-cpu=native -g"
+export FIL_PROOFS_PARAMETER_CACHE=/opt/local_ssd/filecoin-proof-parameters-v28
+export FIL_PROOFS_SSD_PARENT="/opt/local_ssd/SSD_PARENT"
+export FIL_PROOFS_MEM_POOL_EXP=10
+export FIL_PROOFS_MEM_ITEM_CNT=100
+
+
+#######################
+# for test environment -> set run time(S)
+#######################
+export AP_DELAY=240
+export P1_DELAY=720
+export P2_DELAY=320
+export C1_DELAY=0
+export C2_DELAY=360
+

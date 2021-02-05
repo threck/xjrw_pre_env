@@ -1,0 +1,30 @@
+export RUSTUP_DIST_SERVER="https://mirrors.sjtug.sjtu.edu.cn/rust-static"
+export RUSTUP_UPDATE_ROOT="https://mirrors.sjtug.sjtu.edu.cn/rust-static/rustup"
+export IPFS_GATEWAY="https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/"
+export GOPROXY="https://goproxy.cn"
+export LOTUS_PATH="/opt/local_ssd/.lotusdata"
+export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-32G"
+export WORKER_PATH="/opt/hdd_pool/.lotusworker-32G"
+export RUST_LOG=Trace
+export RUSTFLAGS="-C target-cpu=native -g"
+export TMPDIR="/opt/local_ssd/tmp"
+
+export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
+export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
+export FIL_PROOFS_PARAMETER_CACHE="/opt/local_ssd/filecoin-proof-parameters-v28"
+export FIL_PROOFS_PARENT_CACHE="/opt/local_ssd"
+export FIL_PROOFS_MAXIMIZE_CACHING=1
+export FIL_PROOFS_ADDPIECE_CACHE="/opt/local_ssd/addpiece_cache_32g"
+export FIL_PROOFS_SSD_PARENT="/opt/local_ssd/PARENT"
+export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
+export FIL_P2_CPU_BOND=/opt/local_ssd/p2_cpus.cfg
+export FIL_PROOFS_MEM_POOL_EXP=30
+export FIL_PROOFS_RESERVED_MEMORY=40
+export FIL_PROOFS_MEM_ITEM_CNT=384
+#export FIL_PROOFS_P2_THREADS=64
+export RAYON_NUM_THREADS=128
+
+export XJRW_SHOW_LOGS=y
+#export CHECK_WORKER=/home/xjrw/scripts/ping.sh
+#export FIL_PROOFS_TEST_P2=work01
+export P1_REDO=Y
