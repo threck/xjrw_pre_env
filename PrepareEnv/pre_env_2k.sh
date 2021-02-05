@@ -9,7 +9,7 @@ source ${BASEDIR}/Common/FileDirectory.sh
 # check param
 if [ -z "$1" ]; then
   echo "please run as: bash $0 [ conf_file ]"
-  echo "e.g. bash $0 miner_cluster_150.conf"
+  echo "e.g. bash $0 cluster_2K_150.conf"
   exit 1
 fi
 [ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
@@ -28,11 +28,14 @@ check_network_connection "${cluster_list}"
 
 # 1. copy miner_pre script to miner_ip
 log_info "prepare for cluster-miner : ${miner_ip}..."
+type=$(echo $1|cut -d_ -f2)
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${LOCALDIR}/pre_env_2k_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${conf_file} ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
+[ $? -ne 0 ] && exit 1
+sync_to_remote ${LOCALDIR}/profiles/profile_${type}_miner ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}/profiels
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${BASEDIR}/MinerOperation/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
 [ $? -ne 0 ] && exit 1
@@ -55,6 +58,8 @@ for worker_ip_tmp in ${worker_ip}; do
   sync_to_remote ${LOCALDIR}/pre_env_2k_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+  v=$? && exit_value=$((exit_value+v))
+  sync_to_remote ${LOCALDIR}/profiles/profile_${type}_worker ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}/profiels
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
   v=$? && exit_value=$((exit_value+v))

@@ -18,8 +18,11 @@ fi
 is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
 
+type=$(echo ${conf_file##*/}|cut -d_ -f2)
+source ${LOCALDIR}/profiles/profile_${type}_worker
+
 # check env variables before initialize
-bash -l ${BASEDIR}/Check/check_env.sh worker
+bash ${BASEDIR}/Check/check_env.sh worker
 
 # 1.check some env
 log_info "===setup worker: ${LOCAL_IP}==="
@@ -36,7 +39,6 @@ log_info "cleaning environment ..."
 remove_directory "${WORKER_PATH}"
 [ $? -ne 0 ] && exit 1
 
-
 # 3.prepare 3 files: api, token, lotus-worker
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}' |cut -d'=' -f2)
 mkdir -p ${LOTUS_STORAGE_PATH}
@@ -50,4 +52,3 @@ bash ${BASEDIR}/MinerOperation/start_worker.sh ${conf_file}
 return_value=$?
 log_info "pre_env_2k_worker.sh return value: ${return_value}"
 exit ${return_value}
-

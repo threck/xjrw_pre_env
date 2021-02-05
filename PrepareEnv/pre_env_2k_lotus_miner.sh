@@ -13,11 +13,15 @@ conf_file=$1
 
 if [ -z "${conf_file}" ]; then
   echo "please run as: bash $0 [ conf_file ]"
-  echo "e.g. bash $0 miner_cluster.150.conf"
+  echo "e.g. bash $0 cluster_2K_150.conf"
   exit 1
 fi
+
+type=$(echo ${conf_file##*/}|cut -d_ -f2)
+source ${LOCALDIR}/profiles/profile_${type}_miner
+
 # check env variables before initialize
-bash -l ${BASEDIR}/Check/check_env.sh miner
+bash ${BASEDIR}/Check/check_env.sh miner
 
 # --initialize lotus daemon
 log_info "===initialize lotus daemon==="
@@ -155,7 +159,9 @@ log_info "content of miner config file: ${miner_conf}"
 cat ${miner_conf}
 
 # do run
-bash ${BASEDIR}/MinerOperation/start_miner.sh
+bash ${BASEDIR}/MinerOperation/start_miner.sh 2K
 return_value=$?
 log_info "pre_env_2k_lotus_miner.sh return value: ${return_value}"
 exit ${return_value}
+
+
