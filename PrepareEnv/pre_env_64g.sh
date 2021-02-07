@@ -46,10 +46,8 @@ sync_to_remote ${BASEDIR}/Check/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/Check
 
 # 2. run miner_pre script
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_64g_lotus_miner.sh ${conf_file}"
-if [ $? -ne 0 ]; then
-  echo "bash -l ${LOCALDIR}/pre_env_64g_lotus_miner.sh ${conf_file} on ${miner_ip} failed!]"
-  exit 1
-fi
+[ $? -ne 0 ] && exit 1
+
 # 3. copy worker_pre script to worker_ip
 exit_value=0
 for worker_ip_tmp in ${worker_ip}; do

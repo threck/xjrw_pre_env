@@ -18,7 +18,7 @@ function run_command_remote(){
     [ -z "${remoute_cmd}" ] && echo "remoute_cmd is null! please check!" && return 1
     log_info "run command on : ${remoute_ip} -> ${remoute_cmd}"
     expect <<EOF
-    set timeout 180
+    set timeout 1800
     spawn ssh ${remoute_usr}@${remoute_ip} "${remoute_cmd}"
     expect {
     "*yes*" {send "yes\r";exp_continue}

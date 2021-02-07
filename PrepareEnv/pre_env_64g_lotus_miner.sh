@@ -59,28 +59,14 @@ wallet_addr=$(./lotus wallet list |tail -n 1 |cut -d' ' -f1)
 
 # 0_2.initialize miner
 log_info "initialize miner ..."
-nohup ./lotus-miner init --owner=${wallet_addr} --sector-size=64GiB &> ${TMP} &
-v1=1
-while [ ${v1} -ne 0 ]; do
-  sleep 1s
-  grep 'Miner successfully created' ${TMP} &> /dev/null
-  if [ $? -eq 0 ]; then
-    v1=0
-    cat ${TMP}
-    log_info "initialize miner ... success"
-  else
-    log_info "waiting for initialize miner ${v1}s..."
-    v1=$((v1+1))
-  fi
-done
-
-#grep "Miner successfully created" ${TMP} &> /dev/null
-#if [ $? -eq 0 ]; then
-#  log_info "initialize miner ... success"
-#else
-#  log_err "initialize miner ... failed"
-#  exit 1
-#fi
+./lotus-miner init --owner=${wallet_addr} --sector-size=64GiB 2>&1 |tee ${TMP}
+grep "Miner successfully created" ${TMP} &> /dev/null
+if [ $? -eq 0 ]; then
+  log_info "initialize miner ... success"
+else
+  log_err "initialize miner ... failed"
+  exit 1
+fi
 is_directory_exist "${LOTUS_STORAGE_PATH}"
 [ $? -ne 0 ] && exit 1
 
