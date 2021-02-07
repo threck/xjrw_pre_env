@@ -65,7 +65,7 @@ while [ ${v1} -ne 0 ]; do
     log_err "timeout : waiting for launch lotus-miner ${v1}s ..."
     exit 1
   else
-    grep 'ERROR:' ${log} &> /dev/null
+    grep -v 'nvidia' ${log} |grep 'ERROR:' &> /dev/null
     if [ $? -eq 0 ]; then
       cat ${log}
       log_err "launch lotus-miner ... failed"
