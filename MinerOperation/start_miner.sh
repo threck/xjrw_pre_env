@@ -60,10 +60,17 @@ while [ ${v1} -ne 0 ]; do
     log_info "waiting for launch lotus-miner ${v1}s ..."
     v1=$((v1+1))
   fi
-  if [ ${v1} -gt 300 ]; then
+  if [ ${v1} -gt 150 ]; then
     cat ${log}
     log_err "timeout : waiting for launch lotus-miner ${v1}s ..."
     exit 1
+  else
+    grep 'ERROR:' ${log} &> /dev/null
+    if [ $? -eq 0 ]; then
+      cat ${log}
+      log_err "launch lotus-miner ... failed"
+      exit 1
+    fi
   fi
 done
 
