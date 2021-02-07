@@ -73,7 +73,7 @@ is_directory_exist "${LOTUS_STORAGE_PATH}"
 # 1.modify .lotusminer/config.coml
 miner_conf=${LOTUS_STORAGE_PATH}/config.toml
 log_info "modify miner config file: ${miner_conf}"
-m_ip=$(ifconfig |grep inet |grep -v 127 |awk '{printf $2}')
+m_ip=$(ifconfig |grep 192.168 |awk '{printf $2}')
 port=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $3}' |cut -d'=' -f2)
 addpiece=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $4}' |cut -d'=' -f2)
 precommit1=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $5}' |cut -d'=' -f2)
