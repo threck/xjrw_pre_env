@@ -162,7 +162,7 @@ log_info "content of miner config file: ${miner_conf}"
 cat ${miner_conf}
 
 # do run
-bash ${BASEDIR}/MinerOperation/start_miner.sh 2K
+bash ${BASEDIR}/MinerOperation/start_miner.sh $(echo ${conf_file##*/}|cut -d_ -f2)
 return_value=$?
 log_info "pre_env_2k_lotus_miner.sh return value: ${return_value}"
 exit ${return_value}
