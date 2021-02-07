@@ -11,9 +11,9 @@ export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-64G"
 export LOTUS_PLDEGE=/home/xjrw/scripts/pull_pledge.sh
 
 export TMPDIR=/opt/local_hdd/tmp
-export P1_DELAY_TIME=90
-export P1_LIMIT=4
-export P2_LIMIT=1
+export P1_DELAY_TIME=100
+export P1_LIMIT=8
+export P2_LIMIT=2
 export XJRW_SHOW_LOGS=y
 export ADDPIECE_DELAY_TIME=60
 

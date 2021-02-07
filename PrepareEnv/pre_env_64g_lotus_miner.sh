@@ -93,8 +93,8 @@ log_info "content of miner config file: ${miner_conf}"
 cat ${miner_conf}
 
 # do run
-bash ${BASEDIR}/MinerOperation/start_miner.sh ${conf_file}
 log_info "run bash ${BASEDIR}/MinerOperation/start_miner.sh $(echo ${conf_file##*/}|cut -d_ -f2)"
+bash ${BASEDIR}/MinerOperation/start_miner.sh ${conf_file}
 return_value=$?
 log_info "pre_env_64g_lotus_miner.sh return value: ${return_value}"
 exit ${return_value}

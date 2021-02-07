@@ -19,12 +19,18 @@ log=/var/logs/miner_${type}.log.${t}
 ln_log=${APP_PATH}/miner.log
 
 # judge if there's a lotus-miner process
-pid=$(ps -ef |grep lotus-miner |grep -v grep |awk -F' ' '{print $2}')
-if [ -n "${pid}" ]; then
-  log_info "there a lotus-miner process [${pid}] found already."
-  log_info "quit"
-  exit 0
+miner_pid=$(grep MINER_PID_${type} /etc/profile |awk -F'=' '{print $2}')
+if [ -n "${miner_pid}" ]; then
+# judge if there's a lotus-miner process
+  pid=$(ps -ef |grep lotus-miner |grep -v grep |awk '{print $2}' |grep ${miner_pid})
+  if [ -n "${pid}" ]; then
+    log_err "lotus-miner[${type}] process[${pid}] found"
+    exit 1
+  else
+    log_info "no lotus-miner[${type}] process found"
+  fi
 fi
+
 
 # launch lotus-miner
 cd ${APP_PATH}
@@ -46,16 +52,18 @@ v1=1
 while [ ${v1} -ne 0 ]; do
   sleep 1s
   grep 'winning PoSt warmup successful' ${log} &> /dev/null
-  if [ ${v1} -gt 300 ]; then
-    log_err "timeout : waiting for launch lotus-miner ${v1}s ..."
-    exit 1
-  fi
   if [ $? -eq 0 ]; then
     v1=0
+    cat ${log}
     log_info "launch lotus-miner ... over"
   else
     log_info "waiting for launch lotus-miner ${v1}s ..."
     v1=$((v1+1))
+  fi
+  if [ ${v1} -gt 300 ]; then
+    cat ${log}
+    log_err "timeout : waiting for launch lotus-miner ${v1}s ..."
+    exit 1
   fi
 done
 
