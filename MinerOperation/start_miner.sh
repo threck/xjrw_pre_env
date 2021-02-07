@@ -87,7 +87,7 @@ else
 fi
 
 # add miner pid environment to /etc/profile
-grep MINER_PID_${type} /etc/profile &> /dev/null
+grep MINER_PID_${type}= /etc/profile &> /dev/null
 if [ $? -ne 0 ]; then
   sed -i "\$aexport MINER_PID_${type}=${pid}" /etc/profile
 else

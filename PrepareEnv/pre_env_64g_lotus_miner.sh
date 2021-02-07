@@ -35,7 +35,7 @@ log_info "check environment variables ..."
 is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
 
-miner_pid=$(grep MINER_PID_${type} /etc/profile |awk -F'=' '{print $2}')
+miner_pid=$(grep MINER_PID_${type}= /etc/profile |awk -F'=' '{print $2}')
 if [ -n "${miner_pid}" ]; then
 # judge if there's a lotus-miner process
   pid=$(ps -ef |grep lotus-miner |grep -v grep |awk '{print $2}' |grep ${miner_pid})
