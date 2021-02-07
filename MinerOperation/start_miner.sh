@@ -4,7 +4,7 @@ LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
 BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
 source ${BASEDIR}/Common/Log.sh
 
-type=$1
+type=$(echo ${1##*/}|cut -d_ -f2)
 if [ -z "${type}" ]; then
   echo "please run as: bash $0 [ 2K | 32G | 64G | 64G2]"
   echo "e.g. bash $0 2K"
