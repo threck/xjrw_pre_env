@@ -10,13 +10,13 @@ export GOPROXY="https://goproxy.cn"
 # could cancel when P1 P2 not running on the same worker
 export DISPATCH_SERVER="miner_ip:54321"
 
-export LOTUS_STORAGE_PATH=/opt/hdd_pool/.lotusminer
-export WORKER_PATH=/opt/hdd_pool/.lotusworker
-export TMPDIR=/opt/local_ssd/tmp
+export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer"
+export WORKER_PATH="/opt/hdd_pool/.lotusworker"
+export TMPDIR="/opt/local_ssd/tmp"
 
 export RUST_LOG=Trace
 export RUSTFLAGS="-C target-cpu=native -g"
-export FIL_PROOFS_PARAMETER_CACHE=/opt/local_ssd/filecoin-proof-parameters-v28
+export FIL_PROOFS_PARAMETER_CACHE="/opt/local_ssd/filecoin-proof-parameters-v28"
 export FIL_PROOFS_SSD_PARENT="/opt/local_ssd/SSD_PARENT"
 export FIL_PROOFS_MEM_POOL_EXP=10
 export FIL_PROOFS_MEM_ITEM_CNT=100

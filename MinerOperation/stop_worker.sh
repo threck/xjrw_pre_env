@@ -27,7 +27,7 @@ while [ ${v1} -ne 0 ]; do
     v1=0
     log_info "killing lotus-worker ... success"
   else
-    log_err "waiting for kill lotus-worker ${v1}s ..."
+    log_info "waiting for kill lotus-worker ${v1}s ..."
     v1=$((v1+1))
   fi
 done

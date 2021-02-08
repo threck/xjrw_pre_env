@@ -1,4 +1,5 @@
-export MINER_SERVER=192.168.0.201:7777
+export MINER_SERVER="miner_ip:7777"
+
 export RUSTUP_DIST_SERVER="https://mirrors.sjtug.sjtu.edu.cn/rust-static"
 export RUSTUP_UPDATE_ROOT="https://mirrors.sjtug.sjtu.edu.cn/rust-static/rustup"
 export IPFS_GATEWAY="https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/"
@@ -17,8 +18,8 @@ export FIL_PROOFS_MAXIMIZE_CACHING=1
 export FIL_PROOFS_ADDPIECE_CACHE=/opt/local_hdd/
 export FIL_PROOFS_SSD_PARENT="/opt/hdd_pool/PARENT"
 export FIL_PROOFS_P2_THREADS=64
-export P1_DELAY_TIME=100
-export P1_LIMIT=3
+export P1_DELAY_TIME=90
+export P1_LIMIT=4
 export P2_LIMIT=1
 export FIL_PROOFS_RESERVED_MEMORY=40
 export XJRW_SHOW_LOGS=y

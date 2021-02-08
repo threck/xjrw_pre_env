@@ -12,7 +12,7 @@ export GOPROXY="https://goproxy.cn"
 
 export MINER_SERVER="miner_ip:7777"
 
-export LOTUS_PATH=/opt/local_ssd/.lotusdata
+export LOTUS_PATH="/opt/local_ssd/.lotusdata"
 export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-32G"
 export LOTUS_PLDEGE=/home/xjrw/scripts/pull_pledge.sh
 #export TMPDIR=/opt/local_hdd/tmp ?

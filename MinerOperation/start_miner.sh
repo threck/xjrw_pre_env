@@ -44,8 +44,8 @@ else
   nohup ./lotus-miner run &> ${log} &
   pid=$!
 fi
-log_info "lotus-miner pid: ${pid}"
-log_info "lotus-miner logs: ${log}"
+log_info "lotus-miner[${type}] pid: ${pid}"
+log_info "lotus-miner[${type}] logs: ${log}"
 
 # wait for launch
 v1=1
@@ -59,20 +59,20 @@ while [ ${v1} -ne 0 ]; do
   if [ $? -eq 0 ]; then
     v1=0
     cat ${log}
-    log_info "launch lotus-miner ... over"
+    log_info "launch lotus-miner[${type}] ... over"
   else
-    log_info "waiting for launch lotus-miner ${v1}s ..."
+    log_info "waiting for launch lotus-miner[${type}] ${v1}s ..."
     v1=$((v1+1))
   fi
   if [ ${v1} -gt 360 ]; then
     cat ${log}
-    log_err "timeout : waiting for launch lotus-miner ${v1}s ..."
+    log_err "timeout : waiting for launch lotus-miner[${type}] ${v1}s ..."
     exit 1
   else
     grep -v 'nvidia' ${log} |grep 'ERROR:' &> /dev/null
     if [ $? -eq 0 ]; then
       cat ${log}
-      log_err "launch lotus-miner ... failed"
+      log_err "launch lotus-miner[${type}] ... failed"
       exit 1
     fi
   fi
@@ -81,12 +81,12 @@ done
 # check lotus-miner pid
 ps -ef |grep lotus-miner |grep -v grep |awk -F' ' '{print $2}' |grep ${pid} &> /dev/null
 if [ $? -eq 0 ]; then
-  log_info "lotus-miner pid: ${pid}"
-  log_info "launch lotus-miner ... success"
+  log_info "lotus-miner[${type}] pid: ${pid}"
+  log_info "launch lotus-miner[${type}] ... success"
   exit_value=0
 else
-  log_err "can't get lotus-miner pid."
-  log_info "launch lotus-miner ... failed"
+  log_err "can't get lotus-miner[${type}] pid."
+  log_info "launch lotus-miner[${type}] ... failed"
   exit_value=1
 fi
 
