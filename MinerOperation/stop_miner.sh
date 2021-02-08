@@ -33,9 +33,9 @@ while [ ${v1} -ne 0 ]; do
   miner_str=$(ps -ef |grep lotus-miner |grep -v grep |grep ${miner_pid})
   if [ -z "${miner_str}" ]; then
     v1=0
-    log_info "killing lotus-miner ... success"
+    log_info "killing lotus-miner[${type}] ... success"
   else
-    log_err "waiting for kill lotus-miner ${v1}s ..."
+    log_err "waiting for kill lotus-miner[${type}] ${v1}s ..."
     v1=$((v1+1))
   fi
 done

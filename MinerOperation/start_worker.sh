@@ -25,7 +25,7 @@ ln_log=${APP_PATH}/worker.log
 # judge if there's a lotus-woker process
 pid=$(ps -ef |grep lotus-woker |grep -v grep |awk -F' ' '{print $2}')
 if [ -n "${pid}" ]; then
-  log_info "there a lotus-woker process [${pid}] found already."
+  log_info "there a lotus-woker[${type}] process [${pid}] found already."
   log_info "quit"
   exit 0
 fi
@@ -41,9 +41,9 @@ unseal=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{pr
 
 # run lotus-worker
 cd ${APP_PATH}
-log_info "launch worker ..."
+log_info "launch worker[${type}] ..."
 log_info "launch pram: ./lotus-worker run --listen=${LOCAL_IP}:${port} --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} --commit1=${commit1} --commit2=${commit2} --unseal=${unseal}"
-log_info "lotus-worker log: ${log}"
+log_info "lotus-worker[${type}] log: ${log}"
 nohup ./lotus-worker run --listen=${LOCAL_IP}:${port} \
 --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} \
 --commit1=${commit1} --commit2=${commit2} --unseal=${unseal} \
@@ -55,14 +55,14 @@ while [ ${v1} -ne 0 ]; do
   sleep 1s
   grep 'Worker registered successfully, waiting for tasks' ${log} &> /dev/null
   if [ ${v1} -gt 300 ]; then
-    log_err "timeout : waiting for launch lotus-worker ${v1}s ..."
+    log_err "timeout : waiting for launch lotus-worker[${type}] ${v1}s ..."
     exit 1
   fi
   if [ $? -eq 0 ]; then
     v1=0
-    log_info "launch lotus-worker ... success"
+    log_info "launch lotus-worker[${type}] ... success"
   else
-    log_info "waiting for launch lotus-worker ${v1}s ..."
+    log_info "waiting for launch lotus-worker[${type}] ${v1}s ..."
     v1=$((v1+1))
   fi
 done
@@ -70,10 +70,10 @@ done
 # check lotus-worker pid
 pid=$(ps -ef |grep lotus-worker |grep -v grep |awk -F' ' '{print $2}')
 if [ -n "${pid}" ]; then
-  log_info "lotus-worker pid: ${pid}"
+  log_info "lotus-worker[${type}] pid: ${pid}"
   exit_value=0
 else
-  log_err "can't get lotus-worker pid."
+  log_err "can't get lotus-worker[${type}] pid."
   exit_value=1
 fi
 
