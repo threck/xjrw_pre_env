@@ -14,10 +14,10 @@ elif [ ! -f "$1" ]; then
 fi
 
 APP_PATH=/root
-LOCAL_IP=$(ifconfig |grep inet |grep -v 127.0.0.1 |awk '{printf $2}')
+LOCAL_IP=$(ifconfig |grep 192.168 |awk '{printf $2}')
 conf=$1
 t=$(date +%Y%m%d%H%M%S)
-type=$(echo ${conf_file##*/}|cut -d_ -f2)
+type=$(echo ${conf##*/}|cut -d_ -f2)
 mkdir -p /var/logs
 log=/var/logs/worker_${type}.log.${t}
 ln_log=${APP_PATH}/worker.log
