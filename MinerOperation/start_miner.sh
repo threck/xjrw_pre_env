@@ -16,7 +16,7 @@ t=$(date +%Y%m%d%H%M%S)
 ip=$(ifconfig |grep 192 |awk -F' ' '{print $2}')
 mkdir -p /var/logs
 log=/var/logs/miner_${type}.log.${t}
-ln_log=${APP_PATH}/miner.log
+ln_log=${APP_PATH}/miner_${type}.log
 
 # judge if there's a lotus-miner process
 miner_pid=$(grep MINER_PID_${type} /etc/profile |awk -F'=' '{print $2}')
