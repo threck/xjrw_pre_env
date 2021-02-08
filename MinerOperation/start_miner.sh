@@ -51,7 +51,11 @@ log_info "lotus-miner logs: ${log}"
 v1=1
 while [ ${v1} -ne 0 ]; do
   sleep 1s
-  grep 'winning PoSt warmup successful' ${log} &> /dev/null
+  if [ ${type} = "2K" ]; then
+    grep 'winning PoSt warmup successful' ${log} &> /dev/null
+  else
+    grep 'skipping winning PoSt warmup, no sectors' ${log} &> /dev/null
+  fi
   if [ $? -eq 0 ]; then
     v1=0
     cat ${log}
