@@ -10,7 +10,7 @@ export WORKER_PATH="/opt/hdd_pool/.lotusworker-64G"
 
 export RUST_LOG=Trace
 export RUSTFLAGS="-C target-cpu=native -g"
-export TMPDIR="/opt/local_hdd/tmp"
+export TMPDIR="/opt/hdd_pool/tmp"
 export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
 export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
 export FIL_PROOFS_PARAMETER_CACHE="/opt/local_ssd/filecoin-proof-parameters-v28"
