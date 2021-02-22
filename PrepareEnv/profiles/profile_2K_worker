@@ -12,7 +12,7 @@ export DISPATCH_SERVER="miner_ip:54321"
 
 export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer"
 export WORKER_PATH="/opt/hdd_pool/.lotusworker"
-export TMPDIR="/opt/local_ssd/tmp"
+export TMPDIR="/opt/hdd_pool/tmp"
 
 export RUST_LOG=Trace
 export RUSTFLAGS="-C target-cpu=native -g"
