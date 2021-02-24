@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
+BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
+source ${BASEDIR}/Common/Log.sh
 
 if [ -z "$1" ]; then
   echo "please run as: bash $0 [ config_file ]"
