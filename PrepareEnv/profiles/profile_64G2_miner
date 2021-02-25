@@ -9,7 +9,7 @@ export LOTUS_PATH=/opt/local_ssd/.lotusdata
 export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-64G-2"
 export RUST_LOG=Trace
 export RUSTFLAGS="-C target-cpu=native -g"
-export TMPDIR=/opt/local_hdd/tmp
+export TMPDIR=/opt/hdd_pool/tmp
 export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
 export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
 export FIL_PROOFS_PARAMETER_CACHE=/opt/local_hdd/filecoin-proof-parameters-v28
@@ -31,3 +31,5 @@ export FIL_PROOFS_MEM_ITEM_CNT=480
 export P1P2_STATE=1
 export LOTUS_PLDEGE=/home/xjrw/scripts/pull_pledge.sh
 export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
+
+export AUTO_PLEDGE_TIME=-1
