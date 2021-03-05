@@ -22,6 +22,8 @@ type=$(echo ${conf_file##*/}|cut -d_ -f2)
 sed -i "s/miner_ip/${miner_ip}/g" ${LOCALDIR}/profiles/profile_${type}_miner
 source ${LOCALDIR}/profiles/profile_${type}_miner
 cp ${LOCALDIR}/profiles/profile_${type}_miner /etc/
+mkdir -p ${TMPDIR}
+echo "mkdir -p ${TMPDIR}"
 
 # check env variables before initialize
 bash ${BASEDIR}/Check/check_env.sh miner
