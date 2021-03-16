@@ -19,9 +19,9 @@ export FIL_PROOFS_PARENT_CACHE="/opt/local_ssd"
 export FIL_PROOFS_MAXIMIZE_CACHING=1
 export FIL_PROOFS_ADDPIECE_CACHE="/opt/local_ssd/addpiece_cache_64g"
 export FIL_PROOFS_SSD_PARENT="/opt/local_ssd/PARENT"
-export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
+
 export FIL_PROOFS_PREFETCH_ONCE=5
-#export FIL_P2_CPU_BOND=/opt/local_ssd/p2_cpus.cfg
+
 export FIL_PROOFS_MEM_POOL_EXP=30
 export FIL_PROOFS_RESERVED_MEMORY=40
 export FIL_PROOFS_MEM_ITEM_CNT=480
@@ -29,7 +29,9 @@ export FIL_PROOFS_MEM_ITEM_CNT=480
 export RAYON_NUM_THREADS=128
 
 export XJRW_SHOW_LOGS=y
-#export CHECK_WORKER=/home/xjrw/scripts/ping.sh
-#export FIL_PROOFS_TEST_P2=work01
-export P1_REDO=Y
 
+export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
+#export FIL_P2_CPU_BOND="/opt/local_ssd/p2_cpus.cfg"
+export P1_REDO=Y
+#export FIL_PROOFS_LOCK_P1=6
+#export FIL_PROOFS_LOCK_P2C2=2
