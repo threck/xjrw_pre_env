@@ -73,3 +73,4 @@ done
 
 log_info "pre_env_64g.sh return value: ${exit_value}"
 exit ${exit_value}
+

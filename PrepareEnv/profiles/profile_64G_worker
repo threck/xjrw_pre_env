@@ -8,11 +8,9 @@ export GOPROXY="https://goproxy.cn"
 export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-64G"
 export WORKER_PATH="/opt/hdd_pool/.lotusworker-64G"
 
-export RUST_LOG=Trace
 export RUSTFLAGS="-C target-cpu=native -g"
 export TMPDIR="/opt/hdd_pool/tmp"
-export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
-export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
+
 export FIL_PROOFS_PARAMETER_CACHE="/opt/local_ssd/filecoin-proof-parameters-v28"
 export FIL_PROOFS_PARENT_CACHE="/opt/local_ssd/"
 export FIL_PROOFS_MAXIMIZE_CACHING=1
@@ -22,12 +20,38 @@ export FIL_PROOFS_P2_THREADS=64
 export FIL_PROOFS_PREFETCH_ONCE=5
 export FIL_PROOFS_RESERVED_MEMORY=40
 export XJRW_SHOW_LOGS=y
+#export DISPATCH_SERVER=192.168.0.15:54321
 
-export ADDPIECE_DELAY_TIME=60
-#export DISPATCH_SERVER=192.168.0.201:54321
+# 设置内存单元为1G
 export FIL_PROOFS_MEM_POOL_EXP=30
-export FIL_PROOFS_MEM_ITEM_CNT=466
+# 设置内存单元数
+export FIL_PROOFS_MEM_ITEM_CNT=903
 
+# P1绑核文件
 export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
+
+# P2绑核文件
 #export FIL_P2_CPU_BOND="/opt/local_ssd/p2_cpus.cfg"
+
+# P1断点续做
 export P1_REDO=Y
+
+# P1,P2,C2可并行的任务数
+#export FIL_PROOFS_LOCK_P1=6
+#export FIL_PROOFS_LOCK_P2C2=2
+
+
+#===可选的环境变量===
+# 以下设置会让PreCommit1使用更多的内存并且计算更快，在推荐的硬件配置上建议使用
+# 需要给miner和worker都设置
+#export FIL_PROOFS_SDR_PARENTS_CACHE_SIZE=1073741824
+
+# 以下设置将会让worker显示更详细的日志
+#export RUST_BACKTRACE=full
+#RUST日志等级
+export RUST_LOG=Trace
+
+
+# 以下设置会让worker使用GPU计算PreCommit2。
+export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
+export FIL_PROOFS_USE_GPU_TREE_BUILDER=1

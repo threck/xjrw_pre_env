@@ -9,7 +9,6 @@ export GOPROXY="https://goproxy.cn"
 # !!! must set when P1P2_STATE=1
 # could cancel when P1P2_STATE=1
 export DISPATCH_SERVER="miner_ip:54321"
-
 export MINER_SERVER="miner_ip:7777"
 
 export LOTUS_PATH="/opt/hdd_pool/.lotusdata"
@@ -21,20 +20,18 @@ export ADDPIECE_DELAY_TIME=1
 #export P1_DELAY_TIME=60
 export AUTO_PLEDGE_TIME=-1
 export P1P2_STATE=1
-
+export P1_SPACE=100
 export FIL_PROOFS_PARAMETER_CACHE="/opt/local_ssd/filecoin-proof-parameters-v28"
 export FIL_PROOFS_SSD_PARENT="/opt/local_ssd/SSD_PARENT"
-export FIL_PROOFS_MEM_POOL_EXP=10
-export FIL_PROOFS_MEM_ITEM_CNT=100
+
 
 #######################
 # Moved to config.json
 #######################
-export P1_LIMIT=6
-export P2_LIMIT=6
-export C2_LIMIT=15
-export P2_NUMBER=9000
-export P1_SPACE=9000
-export P2_SPACE=9000
-export AUTO_INTERVAL_TIME=9000
+#export P1_LIMIT=6
+#export P2_LIMIT=6
+#export C2_LIMIT=15
+#export P2_NUMBER=9000
+#export P2_SPACE=9000
+#export AUTO_INTERVAL_TIME=9000
 
