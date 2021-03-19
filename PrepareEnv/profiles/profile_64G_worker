@@ -37,7 +37,7 @@ export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
 export P1_REDO=Y
 
 # P1,P2,C2可并行的任务数
-#export FIL_PROOFS_LOCK_P1=6
+export FIL_PROOFS_LOCK_P1=2
 #export FIL_PROOFS_LOCK_P2C2=2
 
 
