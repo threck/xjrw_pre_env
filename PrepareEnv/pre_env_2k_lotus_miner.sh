@@ -34,9 +34,13 @@ log_info "===initialize lotus daemon==="
 log_info "check environment variables ..."
 [ -z "${LOTUS_PATH}" ] && echo "env LOTUS_PATH is null! please set it!" && exit 1
 [ -z "${LOTUS_STORAGE_PATH}" ] && echo "env LOTUS_STORAGE_PATH is null! please set it!" && exit 1
+my_pkill "lotus"
+[ $? -ne 0 ] && exit 1
 is_file_exist "${conf_file}"
 [ $? -ne 0 ] && exit 1
-check_process_not_exist "lotus"
+check_process_not_exist "lotus-miner run"
+[ $? -ne 0 ] && exit 1
+check_process_not_exist "lotus daemon"
 [ $? -ne 0 ] && exit 1
 
 # 2.cleaning genesis_sectors;lotusdata;lotusminer;
