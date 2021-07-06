@@ -21,7 +21,12 @@ export FIL_PROOFS_SSD_PARENT="/opt/local_ssd/SSD_PARENT"
 export FIL_PROOFS_MEM_POOL_EXP=10
 export FIL_PROOFS_MEM_ITEM_CNT=100
 export FIL_PROOFS_LOCK_P1=10
-
+#  采用NVMESSD加速，节约一半内存;如果采用内存，变量设置为N;默认为parent_cache目录一致；多个目录采用逗号分隔，一般一个ssd设备一个目录
+export FIL_PROOFS_SDR_EXP_CACHES=N
+# 单核模式为1, 多核模式为1
+export FIL_PROOFS_USE_MULTICORE_SDR=0
+# 生产者线程数
+#export FIL_PROOFS_MULTICORE_SDR_PRODUCERS=4
 
 #######################
 # for test environment -> set run time(S)
