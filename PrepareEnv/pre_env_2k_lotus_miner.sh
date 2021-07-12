@@ -156,6 +156,8 @@ precommit2=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $6}' |
 commit1=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $7}' |cut -d'=' -f2)
 commit2=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $8}' |cut -d'=' -f2)
 unseal=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $9}' |cut -d'=' -f2)
+batchprecommits=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $10}' |cut -d'=' -f2)
+aggregatecommits=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $11}' |cut -d'=' -f2)
 
 sed -i "s/#  ListenAddress = \"\/ip4\/127.0.0.1\/tcp\/2345/  ListenAddress = \"\/ip4\/${m_ip}\/tcp\/${port}/g" ${miner_conf}
 sed -i "s/#  RemoteListenAddress = \"127.0.0.1:2345\"/  RemoteListenAddress = \"${m_ip}:${port}\"/g" ${miner_conf}
@@ -164,6 +166,9 @@ sed -i "s/#  AllowPreCommit1 = true/  AllowPreCommit1 = ${precommit1}/g" ${miner
 sed -i "s/#  AllowPreCommit2 = true/  AllowPreCommit2 = ${precommit2}/g" ${miner_conf}
 sed -i "s/#  AllowCommit1 = true/  AllowCommit1 = ${commit1}/g" ${miner_conf}
 sed -i "s/#  AllowCommit2 = true/  AllowCommit2 = ${commit2}/g" ${miner_conf}
+sed -i "s/#  BatchPreCommits = true/  BatchPreCommits = ${batchprecommits}/g" ${miner_conf}
+sed -i "s/#  AggregateCommits = true/  AggregateCommits = ${aggregatecommits}/g" ${miner_conf}
+
 log_info "content of miner config file: ${miner_conf}"
 cat ${miner_conf}
 
