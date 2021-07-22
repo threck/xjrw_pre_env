@@ -13,7 +13,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 [ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
-[ -z "${M_PWD2}" ] && echo "env M_PWD2 is null! please set it!" && exit 1
+[ -z "${M_PWD}" ] && echo "env M_PWD2 is null! please set it!" && exit 1
 
 # check cluster network
 conf_file=${LOCALDIR}/${1##*/}
