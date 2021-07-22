@@ -10,7 +10,7 @@ GENESIS_PATH=/root/.genesis-sectors
 APP_PATH=/root
 TMP=/tmp/${0##*/}.tmp
 conf_file=$1
-
+sector_size=$(echo ${conf_file}|awk -F'[_G]' '{print $2}')
 if [ -z "${conf_file}" ]; then
   echo "please run as: bash $0 [ conf_file ]"
   echo "e.g. bash $0 miner_cluster.150.conf"
@@ -29,7 +29,7 @@ bash ${BASEDIR}/Check/check_env.sh miner
 
 # --initialize lotus daemon
 log_info "===initialize lotus daemon==="
-log_info "===cancel initialize lotus daemon on 64g environment ==="
+log_info "===cancel initialize lotus daemon on ${sector_size}g environment ==="
 # 1.check some env
 log_info "check environment variables ..."
 [ -z "${LOTUS_PATH}" ] && echo "env LOTUS_PATH is null! please set it!" && exit 1
@@ -61,7 +61,7 @@ wallet_addr=$(./lotus wallet list |tail -n 1 |cut -d' ' -f1)
 
 # 0_2.initialize miner
 log_info "initialize miner ..."
-./lotus-miner init --owner=${wallet_addr} --sector-size=64GiB 2>&1 |tee ${TMP}
+./lotus-miner init --owner=${wallet_addr} --sector-size=${sector_size}GiB 2>&1 |tee ${TMP}
 grep "Miner successfully created" ${TMP} &> /dev/null
 if [ $? -eq 0 ]; then
   log_info "initialize miner ... success"
@@ -98,7 +98,7 @@ cat ${miner_conf}
 log_info "run bash ${BASEDIR}/MinerOperation/start_miner.sh $(echo ${conf_file##*/}|cut -d_ -f2)"
 bash ${BASEDIR}/MinerOperation/start_miner.sh ${conf_file}
 return_value=$?
-log_info "pre_env_64g_lotus_miner.sh return value: ${return_value}"
+log_info "pre_env_lotus_miner.sh return value: ${return_value}"
 exit ${return_value}
 
 

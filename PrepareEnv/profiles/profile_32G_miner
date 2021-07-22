@@ -1,42 +1,21 @@
-####################################
-# environment variables of 32G miner
-####################################
+export MINER_SERVER="miner_ip:77328"
+#export DISPATCH_SERVER="192.168.0.15:54321"
+
 export RUSTUP_DIST_SERVER="https://mirrors.sjtug.sjtu.edu.cn/rust-static"
 export RUSTUP_UPDATE_ROOT="https://mirrors.sjtug.sjtu.edu.cn/rust-static/rustup"
 export IPFS_GATEWAY="https://proof-parameters.s3.cn-south-1.jdcloud-oss.com/ipfs/"
 export GOPROXY="https://goproxy.cn"
 
-# !!! must set when P1 P2 running on the same worker
-# could cancel when P1 P2 not running on the same worker
-#export DISPATCH_SERVER="miner_ip:54321"
-
-export MINER_SERVER="miner_ip:7777"
-
 export LOTUS_PATH="/opt/local_ssd/.lotusdata"
 export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-32G"
-export LOTUS_PLDEGE=/home/xjrw/scripts/pull_pledge.sh
-#export TMPDIR=/opt/local_hdd/tmp ?
+export LOTUS_PLDEGE="/home/xjrw/scripts/pull_pledge.sh"
 
+export TMPDIR="/opt/hdd_pool/tmp"
 export ADDPIECE_DELAY_TIME=60
 export P1_DELAY_TIME=90
-#export AUTO_PLEDGE_TIME=-1
-export P1P2_STATE=1
-
+export P1_SPACE=1152
+export XJRW_SHOW_LOGS=y
 export AUTO_PLEDGE_TIME=-1
 
-export XJRW_SHOW_LOGS=y
-
-#######################
-# Moved to config.json(2k)
-#######################
-export P1_LIMIT=6
-export P2_LIMIT=1
-#export C2_LIMIT=15
-#export P2_NUMBER=9000
-#export P1_SPACE=9000
-#export P2_SPACE=9000
-#export AUTO_INTERVAL_TIME=9000
-
-
-
+export P1P2_STATE=1
 

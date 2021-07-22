@@ -9,7 +9,7 @@ source ${BASEDIR}/Common/FileDirectory.sh
 # check param
 if [ -z "$1" ]; then
   echo "please run as: bash $0 [ conf_file ]"
-  echo "e.g. bash $0 miner_cluster_201.conf profile_64g_miner"
+  echo "e.g. bash $0 miner_cluster_201.conf"
   exit 1
 fi
 [ -z "${M_USER}" ] && echo "env M_USER is null! please set it!" && exit 1
@@ -17,6 +17,7 @@ fi
 
 # check cluster network
 conf_file=${LOCALDIR}/${1##*/}
+
 is_file_exist "${conf_file}"
 miner_ip=$(grep -v '^ *#' ${conf_file} |grep "miner" |awk -F' ' '{print $2}'|cut -d'=' -f2)
 worker_ip=$(grep -v '^ *#' ${conf_file} |grep "worker" |awk -F' ' '{print $2}'|cut -d'=' -f2)
@@ -31,7 +32,7 @@ log_info "prepare for cluster-miner : ${miner_ip}..."
 type=$(echo $1|cut -d_ -f2)
 run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
 [ $? -ne 0 ] && exit 1
-sync_to_remote ${LOCALDIR}/pre_env_64g_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
+sync_to_remote ${LOCALDIR}/pre_env_lotus_miner.sh ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 [ $? -ne 0 ] && exit 1
 sync_to_remote ${conf_file} ${miner_ip} ${M_USER} ${M_PWD} ${LOCALDIR}
 [ $? -ne 0 ] && exit 1
@@ -45,7 +46,7 @@ sync_to_remote ${BASEDIR}/Check/ ${miner_ip} ${M_USER} ${M_PWD} ${BASEDIR}/Check
 [ $? -ne 0 ] && exit 1
 
 # 2. run miner_pre script
-run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_64g_lotus_miner.sh ${conf_file}"
+run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_lotus_miner.sh ${conf_file}"
 [ $? -ne 0 ] && exit 1
 
 # 3. copy worker_pre script to worker_ip
@@ -54,7 +55,7 @@ for worker_ip_tmp in ${worker_ip}; do
   log_info "prepare for cluster-worker: ${worker_ip_tmp} ..."
   run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
   v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${LOCALDIR}/pre_env_64g_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+  sync_to_remote ${LOCALDIR}/pre_env_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   v=$? && exit_value=$((exit_value+v))
   sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
   v=$? && exit_value=$((exit_value+v))
@@ -67,10 +68,10 @@ for worker_ip_tmp in ${worker_ip}; do
   sync_to_remote ${BASEDIR}/Check/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Check
   v=$? && exit_value=$((exit_value+v))
   # 4. run worker_pre script
-  run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_64g_worker.sh ${conf_file}"
+  run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_worker.sh ${conf_file}"
   v=$? && exit_value=$((exit_value+v))
 done
 
-log_info "pre_env_64g.sh return value: ${exit_value}"
+log_info "pre_env.sh return value: ${exit_value}"
 exit ${exit_value}
 

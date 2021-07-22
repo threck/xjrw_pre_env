@@ -17,6 +17,7 @@ function run_command_remote(){
     [ -z "${remoute_pwd}" ] && echo "remoute_pwd is null! please check!" && return 1
     [ -z "${remoute_cmd}" ] && echo "remoute_cmd is null! please check!" && return 1
     log_info "run command on : ${remoute_ip} -> ${remoute_cmd}"
+    {
     expect <<EOF
     set timeout 1800
     spawn ssh ${remoute_usr}@${remoute_ip} "${remoute_cmd}"
@@ -27,6 +28,7 @@ function run_command_remote(){
     catch wait result
     exit [lindex \$result 3]
 EOF
+    } &> /dev/null
     return $?
 }
 
@@ -44,6 +46,7 @@ function sync_to_remote()
     [ -z "${target_dir}" ] && echo "target_dir is null! please check!" && return 1
 
     log_info "sync file: ${source_dir} -> ${target_ip}:${target_dir} ..."
+    {
     expect <<EOF
     set timeout 1800
     spawn rsync -a ${source_dir} ${target_user}@${target_ip}:${target_dir}
@@ -54,6 +57,7 @@ function sync_to_remote()
     catch wait result
     exit [lindex \$result 3]
 EOF
+    } &> /dev/null
     return $?
 }
 
@@ -70,6 +74,7 @@ function sync_from_remote(){
     [ -z "${target_dir}" ] && echo "target_dir is null! please check!" && return 1
 
     log_info "sync file: ${source_ip}:${source_dir} -> ${target_dir} ..."
+    {
     expect <<EOF
     set timeout 1800
     spawn rsync -a ${source_user}@${source_ip}:${source_dir} ${target_dir}
@@ -80,6 +85,7 @@ function sync_from_remote(){
     catch wait result
     exit [lindex \$result 3]
 EOF
+    } &> /dev/null
     return $?
 }
 

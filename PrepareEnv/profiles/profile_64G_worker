@@ -8,9 +8,12 @@ export GOPROXY="https://goproxy.cn"
 export LOTUS_STORAGE_PATH="/opt/hdd_pool/.lotusminer-64G"
 export WORKER_PATH="/opt/hdd_pool/.lotusworker-64G"
 
+export RUST_LOG=Trace
 export RUSTFLAGS="-C target-cpu=native -g"
 export TMPDIR="/opt/hdd_pool/tmp"
 
+#export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
+#export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
 export FIL_PROOFS_PARAMETER_CACHE="/opt/local_ssd/filecoin-proof-parameters-v28"
 export FIL_PROOFS_PARENT_CACHE="/opt/local_ssd/"
 export FIL_PROOFS_MAXIMIZE_CACHING=1
@@ -22,10 +25,12 @@ export FIL_PROOFS_RESERVED_MEMORY=40
 export XJRW_SHOW_LOGS=y
 #export DISPATCH_SERVER=192.168.0.15:54321
 
+export RAYON_NUM_THREADS=128
+
 # 设置内存单元为1G
 export FIL_PROOFS_MEM_POOL_EXP=30
 # 设置内存单元数
-export FIL_PROOFS_MEM_ITEM_CNT=903
+export FIL_PROOFS_MEM_ITEM_CNT=480
 
 # P1绑核文件
 export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
@@ -37,9 +42,11 @@ export FIL_PROOFS_CPU_BOND="/opt/local_ssd/cpu_bond.json"
 export P1_REDO=Y
 
 # P1,P2,C2可并行的任务数
-export FIL_PROOFS_LOCK_P1=2
+export FIL_PROOFS_LOCK_P1=8
 #export FIL_PROOFS_LOCK_P2C2=2
 
+# ?
+#export FIL_PROOFS_VERIFY_CACHE=true
 
 #===可选的环境变量===
 # 以下设置会让PreCommit1使用更多的内存并且计算更快，在推荐的硬件配置上建议使用
@@ -55,3 +62,7 @@ export RUST_LOG=Trace
 # 以下设置会让worker使用GPU计算PreCommit2。
 export FIL_PROOFS_USE_GPU_COLUMN_BUILDER=1
 export FIL_PROOFS_USE_GPU_TREE_BUILDER=1
+
+
+#set 6700XT cores
+#export BELLMAN_CUSTOM_GPU="AMD Radeon RX 6700 XT:2560"
