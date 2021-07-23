@@ -30,6 +30,7 @@ bash ${BASEDIR}/Check/check_env.sh miner
 
 # --initialize lotus daemon
 log_info "===initialize lotus daemon==="
+
 # 1.check some env
 log_info "check environment variables ..."
 [ -z "${LOTUS_PATH}" ] && echo "env LOTUS_PATH is null! please set it!" && exit 1
