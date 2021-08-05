@@ -38,15 +38,23 @@ precommit2=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' 
 commit1=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $7}' |cut -d'=' -f2)
 commit2=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $8}' |cut -d'=' -f2)
 unseal=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $9}' |cut -d'=' -f2)
+p1_delay=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $10}' |cut -d'=' -f2)
+p2_delay=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $11}' |cut -d'=' -f2)
+c1_delay=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $12}' |cut -d'=' -f2)
+c2_delay=$(grep -v '^ *#' ${conf} |grep "worker" |grep ${LOCAL_IP} |awk -F' ' '{print $13}' |cut -d'=' -f2)
 
 # run lotus-worker
 cd ${APP_PATH}
 log_info "launch worker[${type}] ..."
-log_info "launch pram: ./lotus-worker run --listen=${LOCAL_IP}:${port} --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} --commit1=${commit1} --commit2=${commit2} --unseal=${unseal}"
+log_info "launch pram: ./lotus-worker run --listen=${LOCAL_IP}:${port}
+--addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2}
+--commit1=${commit1} --commit2=${commit2} --unseal=${unseal}
+--p1-delay ${p1_delay} --p2-delay ${p2_delay} --c1-delay ${c1_delay} --c2-delay ${c2_delay}"
 log_info "lotus-worker[${type}] log: ${log}"
 nohup ./lotus-worker run --listen=${LOCAL_IP}:${port} \
 --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} \
 --commit1=${commit1} --commit2=${commit2} --unseal=${unseal} \
+--p1-delay ${p1_delay} --p2-delay ${p2_delay} --c1-delay ${c1_delay} --c2-delay ${c2_delay}
 &> ${log} &
 
 # wait for launch
