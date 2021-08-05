@@ -94,7 +94,7 @@ function check_network_connection() {
   return_value=0
   log_info "checking connection to: [ ${ip_list} ]"
   for ip in ${ip_list}; do
-    ping ${ip} -c 4 &> /dev/null
+    ping ${ip} -c 1 &> /dev/null
     if [ $? -eq 0 ]; then
       log_info "ping ${ip} ... network good."
       return_value=$((return_value+0))
