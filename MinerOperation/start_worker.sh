@@ -54,7 +54,7 @@ log_info "lotus-worker[${type}] log: ${log}"
 nohup ./lotus-worker run --listen=${LOCAL_IP}:${port} \
 --addpiece=${addpiece} --precommit1=${precommit1} --precommit2=${precommit2} \
 --commit1=${commit1} --commit2=${commit2} --unseal=${unseal} \
---p1-delay ${p1_delay} --p2-delay ${p2_delay} --c1-delay ${c1_delay} --c2-delay ${c2_delay}
+--p1-delay ${p1_delay} --p2-delay ${p2_delay} --c1-delay ${c1_delay} --c2-delay ${c2_delay} \
 &> ${log} &
 
 # wait for launch
