@@ -4,7 +4,7 @@ LOCALDIR=$(cd $(dirname $0) && pwd && cd - &> /dev/null)
 BASEDIR=$(cd ${LOCALDIR}/.. && pwd && cd - &> /dev/null)
 source ${BASEDIR}/Common/Log.sh
 
-function run_command_remote(){
+function run_command_remote_without_detail(){
     remoute_ip=$1
     shift
     remoute_usr=$1
@@ -29,6 +29,32 @@ function run_command_remote(){
     exit [lindex \$result 3]
 EOF
     } &> /dev/null
+    return $?
+}
+
+function run_command_remote(){
+    remoute_ip=$1
+    shift
+    remoute_usr=$1
+    shift
+    remoute_pwd=$1
+    shift
+    remoute_cmd=$@
+    [ -z "${remoute_ip}" ] && echo "remoute_ip is null! please check!" && return 1
+    [ -z "${remoute_usr}" ] && echo "remoute_usr is null! please check!" && return 1
+    [ -z "${remoute_pwd}" ] && echo "remoute_pwd is null! please check!" && return 1
+    [ -z "${remoute_cmd}" ] && echo "remoute_cmd is null! please check!" && return 1
+    log_info "run command on : ${remoute_ip} -> ${remoute_cmd}"
+    expect <<EOF
+    set timeout 1800
+    spawn ssh ${remoute_usr}@${remoute_ip} "${remoute_cmd}"
+    expect {
+    "*yes*" {send "yes\r";exp_continue}
+    "*password*" {send "${remoute_pwd}\r";exp_continue}
+    }
+    catch wait result
+    exit [lindex \$result 3]
+EOF
     return $?
 }
 
