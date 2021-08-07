@@ -81,6 +81,7 @@ for worker_ip_tmp in ${worker_ip}; do
     pid=$!
     echo "${pid} ${worker_ip_tmp}" >> ${LOCALDIR}/pid_ip_relation.tmp
     pids=$(echo "${pids} ${pid}")
+    sleep 1s
 done
 
 for pid in ${pids}
