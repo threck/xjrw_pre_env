@@ -49,27 +49,45 @@ run_command_remote ${miner_ip} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2
 [ $? -ne 0 ] && exit 1
 
 # 3. copy worker_pre script to worker_ip
+function pre_2k_env() {
+    worker_ip_tmp=$1
+    log_info "prepare for cluster-worker: ${worker_ip_tmp} ..."
+    exit_value=0
+    run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
+    ((exit_value=exit_value+$?))
+    sync_to_remote ${LOCALDIR}/pre_env_2k_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+    ((exit_value=exit_value+$?))
+    sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
+    ((exit_value=exit_value+$?))
+    sync_to_remote ${LOCALDIR}/profiles/profile_${type}_worker ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}/profiles/
+    ((exit_value=exit_value+$?))
+    sync_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
+    ((exit_value=exit_value+$?))
+    sync_to_remote ${BASEDIR}/Common/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Common
+    ((exit_value=exit_value+$?))
+    sync_to_remote ${BASEDIR}/Check/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Check
+    ((exit_value=exit_value+$?))
+    # 4. run worker_pre script
+    run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"
+    ((exit_value=exit_value+$?))
+    return ${exit_value}
+}
 
 exit_value=0
+pids=""
+rm -rf ${LOCALDIR}/pid_ip_relation.tmp
 for worker_ip_tmp in ${worker_ip}; do
-  log_info "prepare for cluster-worker: ${worker_ip_tmp} ..."
-  run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "mkdir -p ${LOCALDIR}"
-  v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${LOCALDIR}/pre_env_2k_worker.sh ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
-  v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${conf_file} ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}
-  v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${LOCALDIR}/profiles/profile_${type}_worker ${worker_ip_tmp} ${M_USER} ${M_PWD} ${LOCALDIR}/profiles/
-  v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${BASEDIR}/MinerOperation/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/MinerOperation
-  v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${BASEDIR}/Common/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Common
-  v=$? && exit_value=$((exit_value+v))
-  sync_to_remote ${BASEDIR}/Check/ ${worker_ip_tmp} ${M_USER} ${M_PWD} ${BASEDIR}/Check
-  v=$? && exit_value=$((exit_value+v))
-  # 4. run worker_pre script
-  run_command_remote ${worker_ip_tmp} ${M_USER} ${M_PWD} "bash -l ${LOCALDIR}/pre_env_2k_worker.sh ${conf_file}"
-  v=$? && exit_value=$((exit_value+v))
+    pre_2k_env ${worker_ip_tmp} &
+    pid=$!
+    echo "${pid} ${worker_ip_tmp}" >> ${LOCALDIR}/pid_ip_relation.tmp
+    pids=$(echo "${pids} ${pid}")
+done
+
+for pid in ${pids}
+do
+    ip_tmp=$(grep "^${pid} " ${LOCALDIR}/pid_ip_relation.tmp |awk '{print $2}')
+    wait ${pid}
+    [ $? -ne 0 ] && log_info "init worker [ ${ip_tmp} ] failed." || log_info "init worker [ ${ip_tmp} ] success."
 done
 
 log_info "pre_env_2k.sh return value: ${exit_value}"
