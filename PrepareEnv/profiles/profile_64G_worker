@@ -53,6 +53,7 @@ export FIL_PROOFS_LOCK_P1=8
 # 需要给miner和worker都设置
 #export FIL_PROOFS_SDR_PARENTS_CACHE_SIZE=1073741824
 
+
 # 以下设置将会让worker显示更详细的日志
 #export RUST_BACKTRACE=full
 #RUST日志等级

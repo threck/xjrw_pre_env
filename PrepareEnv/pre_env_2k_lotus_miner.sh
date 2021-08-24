@@ -55,6 +55,13 @@ remove_directory "${LOTUS_PATH}"
   # remove data of lotusminer
 remove_directory "${LOTUS_STORAGE_PATH}"
 [ $? -ne 0 ] && exit 1
+  # remove data of filecoin.db
+remove_file "/root/filecoin.db"
+[ $? -ne 0 ] && exit 1
+  # remove data of sector.db
+remove_file "/root/sector.db"
+[ $? -ne 0 ] && exit 1
+
 
 # 3.run lotus daemon
 cd ${APP_PATH}
